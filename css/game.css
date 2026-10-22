@@ -95,3 +95,6 @@ body.is-studying .app-nav,body.is-studying .topbar,body.is-studying .footer,body
 
 /* Tekstinvalinta ja zoomaus pois käytöstä; lomakekentät sallivat valinnan */
 html{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-x pan-y}input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+/* Logon molemmat rivit samalla tyylillä; ohjelmallisesti fokusoitu otsikko ilman reunusta */
+.brand-sub{font-size:inherit;font-weight:inherit;color:inherit;letter-spacing:inherit;margin-top:0}
+h1[tabindex]:focus,h1[tabindex]:focus-visible,main[tabindex]:focus,main[tabindex]:focus-visible{outline:none}
