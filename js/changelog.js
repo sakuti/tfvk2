@@ -1,5 +1,9 @@
 /* Muutosloki: uusin ensin. Taulukon on oltava puhdasta JSONia, koska päivitysikkuna lukee sen uuden version välimuistista. */
 window.FysiikkaChangelog=[
+  {"version":"1.5.1","date":"2026-10-22","changes":[
+    "Palauteäänet eivät enää tuo iPhonen Dynamic Islandiin soitinpaneelia, ja muu musiikki jatkuu taustalla.",
+    "Äänettömällä kytkimellä palauteäänet ovat nyt hiljaa, kuten muissakin sovelluksissa."
+  ]},
   {"version":"1.5.0","date":"2026-10-22","changes":[
     "Kaavat puretaan osiin: jokaisesta merkistä osoittaa viiva selitykseen, esimerkiksi G → painovoima.",
     "Lukuarvot sijoitetaan vasta kaavan jälkeen omalle rivilleen, ja tulos näytetään erikseen.",

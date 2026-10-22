@@ -18,10 +18,11 @@
     utterance=u;root.speechSynthesis.speak(u);
   }
   // iOS-PWA vaatii, että äänikonteksti luodaan ja käynnistetään käyttäjän kosketuksessa.
-  // Audio Session -tyyppi 'playback' soittaa äänet myös äänettömällä kytkimellä, kuten puhe.
+  // Audio Session -tyyppi 'ambient' tarkoittaa lyhyitä tehosteääniä: muu musiikki jatkuu eikä iOS näytä
+  // soitinpaneelia (Dynamic Island). 'playback' näyttäisi paneelin. Äänetön kytkin mykistää tehosteet.
   function audioContext(){
     const Audio=root.AudioContext||root.webkitAudioContext;if(!Audio)return null;
-    try{if(root.navigator?.audioSession&&root.navigator.audioSession.type!=='playback')root.navigator.audioSession.type='playback';}catch{}
+    try{if(root.navigator?.audioSession&&root.navigator.audioSession.type!=='ambient')root.navigator.audioSession.type='ambient';}catch{}
     if(!context||context.state==='closed')context=new Audio();
     return context;
   }
