@@ -161,7 +161,7 @@
     label($('solution-button'),cur.done?'Katso malliratkaisu':'Katso ratkaisu');
     $('support-note').hidden=cur.done;$('skip-task').hidden=!active;
     setText('support-note',exam?'Koekierroksella vihjeet, ratkaisut ja kaavatuki avautuvat palautuksen jälkeen. Ohitetun tehtävän voi täydentää tarkistusvaiheessa ennen palautusta.':cur.hints||cur.formula||cur.solution||cur.tries?'Tämä tehtävä kirjataan tuetuksi harjoitteluksi. Yritä seuraava variantti myöhemmin itsenäisesti.':'Itsenäinen onnistuminen: kaikki oikein ensimmäisellä tarkistuksella ilman vihjeitä, ratkaisua tai kaavatukea. Kaavatuki ja vihjeet kirjaavat tehtävän tuetuksi. Ohita tehtävä vie suoraan seuraavaan.');
-    for(let i=0;i<cur.hints&&!cur.done;i++){const card=el('details','hint-item');card.open=i===cur.hints-1;card.append(el('summary','',['1 · Havainto','2 · Yhtälö','3 · Sijoitus'][i]),el('p','',currentTask.hints[i]),legend(currentTask.hints[i],true));list.append(card);}
+    for(let i=0;i<cur.hints&&!cur.done;i++){const card=el('details','hint-item');card.open=i===cur.hints-1;card.append(el('summary','',['1 · Havainto','2 · Yhtälö','3 · Sijoitus'][i]),P.mathBlock(currentTask.hints[i]));list.append(card);P.layoutMath(card);card.addEventListener('toggle',()=>P.layoutMath(card));}
     setText('hint-button',cur.hints>=3?'Kaikki kolme vihjettä avattu':`Avaa vihje ${cur.hints+1} / 3`);$('hint-button').disabled=cur.hints>=3||cur.done;
     setText('formula-button',cur.formula?'Kaavatuki avattu':'Avaa kaavatuki');$('formula-button').disabled=cur.done||cur.formula;
     $('solution-button').disabled=false;
@@ -187,7 +187,7 @@
   }
   function renderSolution(){
     const panel=$('solution-panel'),cur=state.session.current;panel.hidden=!cur.solution;panel.replaceChildren();
-    if(cur.solution){const i=Math.min(cur.solutionStep||0,currentTask.steps.length-1);const force=currentTask.fields.find(f=>f.type==='forces');if(i===0&&force){const figure=el('figure','solution-figure'),diagram=el('div');diagram.innerHTML=P.diagramSVG(currentTask.diagram,force.answer);figure.append(el('figcaption','force-compare-title','Mallin voimakuva'),diagram);panel.append(figure);}panel.append(el('p','solution-step-text',currentTask.steps[i]),legend(currentTask.steps[i],true));if(i===currentTask.steps.length-1)panel.append(el('p','conclusion',currentTask.conclusion));}
+    if(cur.solution){const i=Math.min(cur.solutionStep||0,currentTask.steps.length-1);const force=currentTask.fields.find(f=>f.type==='forces');if(i===0&&force){const figure=el('figure','solution-figure'),diagram=el('div');diagram.innerHTML=P.diagramSVG(currentTask.diagram,force.answer);figure.append(el('figcaption','force-compare-title','Mallin voimakuva'),diagram);panel.append(figure);}const text=el('div','solution-step-text');text.append(P.mathBlock(currentTask.steps[i]));panel.append(text);P.layoutMath(panel);if(i===currentTask.steps.length-1)panel.append(el('p','conclusion',currentTask.conclusion));}
   }
   function renderPath(active){
     const path=$('lesson-path');path.hidden=active===null;path.replaceChildren();if(active===null)return;
@@ -216,7 +216,7 @@
       panel.append(el('p','lesson-copy',copy));const demo=el('div','lesson-demo');panel.append(demo);
       const parameter=Number.isFinite(cur.lessonParameter)&&cur.lessonParameter>=module.parameter.min&&cur.lessonParameter<=module.parameter.max?cur.lessonParameter:module.parameter.value;
       lessonCleanup=P.mountLessonDemo(demo,module,{parameter,onParameter:value=>{cur.lessonParameter=value;persist();}});
-      if(page.type==='principle')panel.append(el('div','lesson-formula',module.formula),legend(module.formula));
+      if(page.type==='principle'){const formula=el('div','lesson-formula');formula.append(P.mathBlock(module.formula,{formula:true}));panel.append(formula);}
       narrationText=copy+(page.type==='principle'?' '+module.formula:'');
     }else if(page.type==='example'||page.type==='worked'){
       panel.append(el('p','lesson-example-label','OPETUSESIMERKKI · omassa tehtävässä on eri luvut'));
@@ -228,7 +228,7 @@
         narrationText=example.context+' Seuraavaksi käymme ratkaisun vaiheittain.';
       }else{
         const recap=el('div','context-details');recap.append(el('p','lesson-example-context',example.context));panel.append(recap);
-        panel.append(el('div','lesson-worked-step',page.text),legend(page.text,true));
+        const worked=el('div','lesson-worked-step');worked.append(P.mathBlock(page.text));panel.append(worked);
         if(page.index===example.steps.length-1)panel.append(el('p','conclusion',example.conclusion));
         narrationText=page.text;
       }
@@ -241,7 +241,7 @@
     }
     $('previous-step').hidden=cur.lessonPage===0;label($('previous-step'),'Takaisin',null,'arrow-left');$('check-answer').hidden=true;$('next-task').hidden=false;$('next-task').disabled=page.type==='prediction'&&cur.lessonAnswer!==module.correct;
     label($('next-task'),page.type==='prediction'?'Kokeile itse uusilla luvuilla':page.type==='observe'?'Miksi näin?':page.type==='principle'?'Katso laskuesimerkki':page.type==='example'?'Avaa ensimmäinen ratkaisuvaihe':'Seuraava vaihe','arrow-right');
-    audioUI();voiceCleanup=P.Media.voicesChanged(audioUI);
+    audioUI();voiceCleanup=P.Media.voicesChanged(audioUI);P.layoutMath(panel);
   }
   function renderExamReview(){
     const s=state.session,panel=$('exam-review');hideTaskParts();renderPath(null);$('lesson-audio').hidden=true;panel.hidden=false;panel.replaceChildren();
@@ -402,11 +402,11 @@
     $('history-more').hidden=rounds.length<=historyLimit;setText('history-more','Näytä lisää ('+Math.max(0,rounds.length-historyLimit)+' jäljellä)');
   }
   function renderFormulas(){
-    const target=$('formula-cards');target.replaceChildren();formulas.forEach(item=>{const card=el('article','formula-card');card.append(el('h2','',item.title),el('div','formula-expression',item.expression),legend(item.expression),el('p','',item.note));target.append(card);});
+    const target=$('formula-cards');target.replaceChildren();formulas.forEach(item=>{const card=el('article','formula-card');const expression=el('div','formula-expression');expression.append(P.mathBlock(item.expression,{formula:true}));card.append(el('h2','',item.title),expression,el('p','',item.note));target.append(card);});P.layoutMath(target);
     const s=state.session,cur=s?.current,active=!!s&&s.mode!=='exam'&&!s.review&&!cur.done&&!cur.teaching;$('formula-session').hidden=!active;
     if(active){const task=P.generate(s.queue[s.index].family,s.queue[s.index].seed);$('formula-use').hidden=cur.formula;setText('formula-session-text',cur.formula?'Kaavatuki on jo käytössä kesken olevassa tehtävässä ”'+task.title+'”. Se kirjataan tuetuksi.':'Kesken: ”'+task.title+'”. Kaavojen selaaminen täällä ei vaikuta siihen. Jos haluat kaavat näkyviin tehtävän yhteyteen, valitse alta – tehtävä kirjataan silloin tuetuksi.');}
   }
-  function renderMiniFormulas(){const node=$('inline-formulas');node.replaceChildren();const relevant=currentTask.category==='Kitka'?[0,2,3,4]:currentTask.category==='Liike'?[5,6,7]:[0,1,4,8];for(const i of relevant){const item=formulas[i],card=el('div','formula-mini');card.append(el('strong','',item.title),el('p','formula-mini-expression',item.expression),legend(item.expression),el('p','',item.note));node.append(card);}}
+  function renderMiniFormulas(){const node=$('inline-formulas');node.replaceChildren();const relevant=currentTask.category==='Kitka'?[0,2,3,4]:currentTask.category==='Liike'?[5,6,7]:[0,1,4,8];for(const i of relevant){const item=formulas[i],card=el('div','formula-mini');const expression=el('div','formula-mini-expression');expression.append(P.mathBlock(item.expression,{formula:true}));card.append(el('strong','',item.title),expression,el('p','',item.note));node.append(card);}P.layoutMath(node);}
   function updateClock(){
     if(!state.session||currentView!=='play')return;const s=state.session;
     if(!s.timed){if(!s.current.teaching)setText('task-time',s.review?'':'Oma tahti');return;}

@@ -136,6 +136,19 @@ test('Varmuuskopion tallennus ja palautus siirtää edistymisen; väärä tiedos
     await choose(backup);dialog.returnValue='confirm';dialog.close();await tick();assert(saved(app).stats.N01);assert(saved(app).session);assert.deepEqual(app.errors,[]);
   }finally{app.close();}
 });
+test('Kaava puretaan: merkeille selitykset, sitten sijoitus ja tulos; kaikki ratkaisuvaiheet piirtyvät',async()=>{
+  const app=setup();try{
+    const P=app.w.Physics,block=P.mathBlock('G = mg = 1300 · 9,81 = 12753 N = 12,753 kN.');
+    assert.deepEqual([...block.querySelectorAll('.ann-badge b')].map(b=>b.textContent),['G','m','g']);
+    assert(block.querySelector('.ann-badge').textContent.includes('painovoima'));
+    const rows=[...block.querySelectorAll('.calc-row')];assert.deepEqual(rows.map(r=>r.querySelector('.calc-label').textContent),['Sijoitus','Tulos']);
+    assert(rows[0].textContent.includes('1300 · 9,81'));assert(rows[1].textContent.includes('12753 N'));
+    assert.equal([...rows[1].querySelectorAll('.ann-sym')].map(n=>n.textContent).join(),'G','Yksikkö N ei ole merkki');
+    const prose=P.mathBlock('Kun a = 0, myös ΣF = 0.');assert(!prose.querySelector('.ann-formula'));assert(prose.textContent.includes('Kun a = 0, myös ΣF = 0.'));
+    for(const id of Object.keys(P.registry))for(const seed of [1,2]){const t=P.generate(id,seed);for(const text of [...t.steps,...t.hints]){const node=P.mathBlock(text);const digits=text.match(/\d+(?:,\d+)?/g)||[];for(const d of digits)assert(node.textContent.includes(d),id+': '+d+' puuttuu: '+text);}}
+    assert.deepEqual(app.errors,[]);
+  }finally{app.close();}
+});
 test('Tumma oletusteema ja pysyvä teemavalinta säilyttävät keskeneräisen tehtävän',async()=>{
   let app=setup(),snapshot,seed,answers;
   try{

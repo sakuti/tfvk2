@@ -1,5 +1,10 @@
 /* Muutosloki: uusin ensin. Taulukon on oltava puhdasta JSONia, koska päivitysikkuna lukee sen uuden version välimuistista. */
 window.FysiikkaChangelog=[
+  {"version":"1.5.0","date":"2026-10-22","changes":[
+    "Kaavat puretaan osiin: jokaisesta merkistä osoittaa viiva selitykseen, esimerkiksi G → painovoima.",
+    "Lukuarvot sijoitetaan vasta kaavan jälkeen omalle rivilleen, ja tulos näytetään erikseen.",
+    "Sama esitys on ratkaisuvaiheissa, vihjeissä, opetuksessa ja kaavakorteissa."
+  ]},
   {"version":"1.4.5","date":"2026-10-22","changes":[
     "Päivitysikkuna kertoo, mitä uudessa versiossa muuttui.",
     "Edistymisen voi tallentaa varmuuskopiotiedostoksi ja palauttaa toisella laitteella (Asetukset → Varmuuskopio).",

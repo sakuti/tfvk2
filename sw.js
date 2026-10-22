@@ -1,6 +1,6 @@
 /* Vaihda VERSION jokaisen julkaistavan resurssimuutoksen yhteydessä. */
 'use strict';
-const VERSION='1.4.5';
+const VERSION='1.5.0';
 const ROOT=new URL('./',self.location.href);
 const PREFIX='fysiikka-sprintti-'+encodeURIComponent(ROOT.pathname)+'-';
 const CACHE=PREFIX+VERSION;
@@ -9,7 +9,7 @@ const FILES=[
   './js/theme.js','./js/core.js','./js/generators-forces.js',
   './js/generators-friction.js','./js/generators-motion.js',
   './js/generators-measurement.js','./js/diagrams.js','./js/session.js',
-  './js/media.js','./js/lessons.js','./js/app.js','./js/changelog.js','./js/pwa.js',
+  './js/media.js','./js/lessons.js','./js/math.js','./js/app.js','./js/changelog.js','./js/pwa.js',
   './assets/fonts/Manrope-Variable.ttf','./assets/fonts/OFL.txt',
   './assets/icons/icon.svg','./assets/icons/icon-192.png',
   './assets/icons/icon-512.png','./assets/icons/icon-maskable-512.png',
