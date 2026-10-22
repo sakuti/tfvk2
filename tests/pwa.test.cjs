@@ -79,6 +79,20 @@ test('Päivitys ei aktivoidu automaattisesti eikä keskellä avointa harjoitusta
     app.d.body.classList.remove('is-studying');button.click();assert.equal(app.message.type,'ACTIVATE_UPDATE');assert.deepEqual(app.errors,[]);
   }finally{app.close();}
 });
+test('Uudesta versiosta kerrotaan ikkunalla; harjoituksen aikana vain ilmoitus ja ikkuna vasta poistuttaessa',async()=>{
+  let app=pwaUI({waiting:true});try{
+    await tick();const dialog=app.d.getElementById('update-dialog');assert(dialog.open);assert(app.d.getElementById('update-toast').hidden);
+    dialog.returnValue='update';dialog.open=false;dialog.dispatchEvent(new app.w.Event('close'));assert.equal(app.message.type,'ACTIVATE_UPDATE');assert.deepEqual(app.errors,[]);
+  }finally{app.close();}
+  app=pwaUI({waiting:true});try{
+    await tick();const dialog=app.d.getElementById('update-dialog');dialog.returnValue='later';dialog.open=false;dialog.dispatchEvent(new app.w.Event('close'));assert.equal(app.message,null);
+  }finally{app.close();}
+  app=pwaUI({waiting:true});try{
+    app.d.body.classList.add('is-studying');await tick();const dialog=app.d.getElementById('update-dialog'),toast=app.d.getElementById('update-toast');
+    assert(!dialog.open);assert(!toast.hidden);assert.equal(app.message,null);
+    app.d.body.classList.remove('is-studying');await tick();assert(dialog.open);assert(toast.hidden);assert.deepEqual(app.errors,[]);
+  }finally{app.close();}
+});
 test('Fontti on paikallinen ja molempien teemojen leipätekstin kontrasti on vähintään 4,5:1',()=>{
   const css=fs.readFileSync(path.join(root,'css/game.css'),'utf8');assert(css.includes('@font-face'));assert(fs.statSync(path.join(root,'assets/fonts/Manrope-Variable.ttf')).size>10000);assert(fs.readFileSync(path.join(root,'assets/fonts/OFL.txt'),'utf8').includes('SIL OPEN FONT LICENSE'));
   const luminance=hex=>{if(hex.length===4)hex='#'+hex.slice(1).split('').map(c=>c+c).join('');const rgb=hex.slice(1).match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;};
