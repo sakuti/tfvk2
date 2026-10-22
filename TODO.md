@@ -1,0 +1,48 @@
+# Sovelluksen yhteinen TODO-lista
+
+Koottu 22.10.2026 tiedostosta UI_ARVIO.md ja aiemmasta toiminnallisesta tarkistuksesta. Päällekkäiset havainnot on yhdistetty: listassa on 39 korjaus- ja suunnittelutehtävää sekä 5 vielä tekemätöntä varmistusta. Tilanne 22.10.2026: kohdat 01–39 on korjattu (versio 1.4.0, 52 automaattitestiä läpi, tarkistettu selaimessa 320 px, 375 px ja 1280 px leveyksillä sekä molemmilla teemoilla). Varmistukset 40–44 ovat yhä tekemättä, koska ne vaativat fyysisen puhelimen, Safarin, ruudunlukijan tai suomenkielisen puheäänen. P1 = ensin, P2 = seuraavaksi, P3 = viimeistely. Varmistukset eivät ole todettuja virheitä. UI-tunniste viittaa alkuperäisen raportin havaintoon.
+
+- [x] **01 · P1:** Muuta harjoittelu modalista omaksi sivunäkymäksi. Lisää selkeä Takaisin / Tallenna ja poistu -toiminto ja säilytä keskeneräinen vaihe. (UI-01)
+- [x] **02 · P1:** Estä keskeneräisen kierroksen tahaton korvaaminen kaikissa aloituskohdissa: etusivun painikkeissa, aihe- ja taitokorteissa sekä tulosten jatkotoiminnoissa. Kerro seurauksesta ennen korvaamista ja tarjoa mahdollisuus perua.
+- [x] **03 · P1:** Käsittele usean välilehden tallennusristiriidat. Vanhan välilehden käyttö tai sulkeminen ei saa ylikirjoittaa uudempaa edistymistä.
+- [x] **04 · P1:** Estä koekierroksen palautteen vuotaminen pisteistä ja onnistumislaskureista ennen kokeen päättymistä.
+- [x] **05 · P2:** Älä laske tyhjää tai virheellisessä lukumuodossa annettua vastausta vääräksi ratkaisuyritykseksi. Säilytä mahdollisuus itsenäiseen onnistumiseen.
+- [x] **06 · P2:** Poista Kaavat-näkymän avaamisen huomaamaton vaikutus tauolla olevaan tehtävään. Tee kaavatuen käyttämisestä ja suorituksen merkitsemisestä tuetuksi selkeä, tietoinen toiminto.
+- [x] **07 · P2:** Korjaa Siirry sisältöön -linkki pelissä ja suunnitelmasivulla. Sen tulee siirtää fokus nykyiseen sisältöön vaihtamatta näkymää. (UI-30)
+- [x] **08 · P2:** Lisää koekierrokselle mahdollisuus tarkistaa ja muokata aiempien tehtävien vastauksia ennen lopullista palautusta.
+- [x] **09 · P2:** Tee työpöydälle ja tabletille tilaa hyödyntävä asettelu. Poista koko sovelluksen kiinteä 520 px enimmäisleveys; harkitse kuvan ja vastausalueen rinnakkaista esitystä. (UI-02)
+- [x] **10 · P2:** Selkeytä harjoittelun vieritystä ja toimintopalkkeja. Varmista riittävä sisältötila matalalla näytöllä ja mobiilinäppäimistön ollessa auki. (UI-03)
+- [x] **11 · P2:** Uudista äänenvoimakkuussäädin: yhtenäinen rata ja nuppi molempiin teemoihin, nykyistä leveämpi säädin, näkyvä prosenttiluku ja riittävä kosketusalue. Säilytä näppäimistökäyttö. (UI-06, UI-07)
+- [x] **12 · P2:** Vaihda Ääni ja selostus -otsikon tekstinuoli keskitettyyn SVG-kuvakkeeseen, joka kääntyy aukiolon mukaan. (UI-05)
+- [x] **13 · P2:** Ryhmittele ääniosion asetukset selkeiksi riveiksi: palauteäänet, voimakkuus ja selostuksen toisto. Korjaa kapean näytön rivittyminen. (UI-08)
+- [x] **14 · P2:** Siirrä ääniosion painotus tehtävän otsikon ja sisällön jälkeen tai kompaktiksi otsaketoiminnoksi. (UI-04)
+- [x] **15 · P2:** Lisää selostukselle näkyvät toistotilat. Näytä Pysäytä vain puheen aikana ja päivitä tila puheen päättyessä. (UI-09)
+- [x] **16 · P2:** Korjaa voimakkuuden säätämisen aiheuttama puheen katkeaminen. Säilytä toisto mahdollisuuksien mukaan tai tarjoa selkeä jatkamis- tai uudelleentoistotoiminto. (UI-10)
+- [x] **17 · P2:** Suurenna tärkeät ohjeet, toimintojen nimet ja leipätekstit. Tarkista rivittyminen ja suurennus nykyisten 9–12 px tekstien korvaamisen jälkeen. (UI-12)
+- [x] **18 · P2:** Tee kuvien teksteistä luettavia puhelimella. Vähennä SVG:n mukana kutistuvaa tekstiä ja siirrä keskeiset arvot tarvittaessa HTML-elementeiksi. (UI-13)
+- [x] **19 · P2:** Erota hihnakuvan G-merkintä ja Vaakakomponentit kumoutuvat -selitys toisistaan. (UI-14)
+- [x] **20 · P2:** Estä sisältörajauksen ja voimien suuntavalintojen tekstien katkeaminen pienillä näytöillä. Näytä valittu arvo kokonaisena. (UI-26)
+- [x] **21 · P2:** Korjaa opetuksen vaiheilmaisin: ymmärryskysymykselle oikea vaihe ja Kokeile itse näkyvästi aktiiviseksi siirryttäessä omaan tehtävään. (UI-16)
+- [x] **22 · P2:** Näytä eteneminen myös opetussivujen aikana. Erota aiheen sisäinen eteneminen koko kierroksen etenemisestä. (UI-17)
+- [x] **23 · P2:** Vähennä koko tehtävänannon toistumista ja tarpeettomia vierityksen palautuksia. Pidä nykyinen kysymys ja vastausalue helposti näkyvissä. (UI-18)
+- [x] **24 · P2:** Säilytä käyttäjän valitsema Tilannekuva ja taulukko -osion aukiolo vastauksen tarkistuksessa ja vaiheiden välillä. (UI-19)
+- [x] **25 · P2:** Erota Ohita tehtävä ja Katso ratkaisu toisistaan. Ohittamisen tulee viedä seuraavaan tehtävään ilman pakollista ratkaisuvaiheiden läpikäyntiä. (UI-21)
+- [x] **26 · P2:** Korjaa taitotilojen nimeäminen: ohitettu tai väärin mennyt tehtävä ei saa näyttää Harjoiteltu tuella -tilaa, jos tuettuja ratkaisuja on nolla. (UI-31)
+- [x] **27 · P2:** Tee kaikki 30 tallennettua kierrosta selattaviksi esimerkiksi Näytä lisää -toiminnolla nykyisen 10 kierroksen rajan sijaan.
+- [x] **28 · P2:** Tuo aktiivinen sisältörajaus näkyviin ennen harjoittelun aloittamista. Älä jätä yleisesti vaikuttavaa valintaa pelkästään lisävalintojen sisään.
+- [x] **29 · P2:** Yhtenäistä tai selitä etusivun mittarien rajaukset: 17 ydintaitoa, 33 taitoa, katsotut opetukset ja vahvistettu osaaminen.
+- [x] **30 · P2:** Lisää helposti löydettävä Jatka harjoittelua -toiminto myös mobiilin edistymis-, kaava- ja asetusnäkymiin. (UI-23)
+- [x] **31 · P2:** Yhtenäistä materiaalikartan ja käyttöohjeen ulkoasu pelin kanssa. Tee käyttöohjeesta luettava sivu, korjaa vanhentuneet toteutustiedot ja nimeä alkuperäinen suunnitelma erilliseksi dokumentaatioksi. (UI-25)
+- [x] **32 · P2:** Korjaa ratkaisukatselmuksen kaksinkertainen voimakuva: näytä selkeästi nimetty oma vastaus ja mallivastaus tai poista tarpeeton tyhjä kuva. (UI-28)
+- [x] **33 · P2:** Lisää kuvaajan tekstitaulukko myös ratkaisukatselmukseen. Säilytä harjoituksen vaihtoehtoinen esitystapa tuloksia tarkistettaessa. (UI-29)
+- [x] **34 · P3:** Lisää yleiset ääniasetukset Asetukset-näkymään ja jätä harjoitteluun nopeat toistotoiminnot. (UI-11)
+- [x] **35 · P3:** Yhtenäistä nuoli-, toisto-, tauko- ja muut toimintokuvakkeet sekä niiden koot ja kohdistukset. (UI-15)
+- [x] **36 · P3:** Yhtenäistä vaiheiden numerointi niin, etteivät tutustuminen ja ensimmäinen vastausvaihe ala hämäävästi samasta numerosta. (UI-20)
+- [x] **37 · P3:** Muuta tehtävän ja kierroksen pääviestit tulosta vastaaviksi. Erota ratkaistu, tuella ratkaistu, katsottu ja ohitettu suoritus. (UI-22)
+- [x] **38 · P3:** Selkeytä taitokortteja: opetus käyty, harjoittelu aloitettu, itsenäinen onnistuminen ja vahvistettu taito. Siirrä sisäiset N06-tyyppiset tunnisteet lisätietoihin. (UI-24)
+- [x] **39 · P3:** Piilota toistopainike ja aikajana malleista, joissa ajan muuttaminen ei vaikuta kuvaan tai arvoihin. (UI-27)
+- [ ] **40 · Varmistus:** Testaa fyysisellä puhelimella kosketuskäyttö, pysty- ja vaaka-asettelu sekä vastaaminen virtuaalinäppäimistön ollessa auki.
+- [ ] **41 · Varmistus:** Tarkista käyttöliittymä ja keskeiset harjoittelupolut Safarissa.
+- [ ] **42 · Varmistus:** Tarkista 200 % selainzoomaus: sisältö, säätimet ja päätoiminnot pysyvät luettavina ja käytettävinä.
+- [ ] **43 · Varmistus:** Käy kaikki pääpolut läpi pelkällä näppäimistöllä ja ruudunlukijalla, mukaan lukien fokuksen siirtyminen, virhepalaute ja kuvien vaihtoehtoiset esitykset.
+- [ ] **44 · Varmistus:** Testaa todellinen suomenkielinen selostusääni, voimakkuuden muuttaminen, pysäytys, sivunvaihto ja toiston päättyminen.

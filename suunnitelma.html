@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#202023">
+  <meta name="description" content="Fysiikka Sprintin materiaalikartta: 26 lähdetiedostoa ja pelin 33 tehtäväperhettä.">
+  <title>Materiaalikartta — Fysiikka Sprintti</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/icons/icon.svg">
+  <script src="./js/theme.js"></script>
+  <link rel="stylesheet" href="./suunnitelma.css">
+  <script src="./suunnitelma.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Siirry sisältöön</a>
+  <aside class="sidebar" aria-label="Suunnitelman navigaatio">
+    <a class="brand" href="#yhteenveto"><span class="brand-icon" aria-hidden="true">Σ</span><span>Fysiikka<span class="brand-light">Sprintti</span></span></a>
+    <a class="back-to-game" href="./index.html"><span aria-hidden="true">←</span> Takaisin peliin</a>
+    <div class="sidebar-label">MATERIAALIKARTTA</div>
+    <nav aria-label="Sivut">
+      <a href="#yhteenveto" data-page="yhteenveto" aria-current="page"><span aria-hidden="true">◫</span> Yhteenveto</a>
+      <a href="#tehtavat" data-page="tehtavat"><span aria-hidden="true">◇</span> Tehtäväperheet <small>33</small></a>
+      <a href="#materiaalit" data-page="materiaalit"><span aria-hidden="true">▤</span> Lähdeaineisto <small>26</small></a>
+      <a href="#toteutus" data-page="toteutus"><span aria-hidden="true">⌘</span> Toteutus</a>
+    </nav>
+    <div class="sidebar-note"><span class="dot"></span> Kaikki 33 perhettä pelattavissa<p>Kartta kertoo, mistä materiaalista kukin pelin tehtäväperhe on tehty.</p></div>
+    <a class="doc-link" href="./ohje.html">Käyttöohje <span aria-hidden="true">↗</span></a>
+    <a class="doc-link" href="./TOTEUTUSSUUNNITELMA.md">Alkuperäinen toteutussuunnitelma (dokumentaatio) <span aria-hidden="true">↗</span></a>
+    <div class="sidebar-footer">TEKNIIKAN FYSIIKKA<br><span>Paikallinen · staattinen · jaettava</span></div>
+  </aside>
+  <main id="main" tabindex="-1">
+    <header class="topbar"><span>MATERIAALISTA MENETELMÄKSI</span><span class="status"><span class="dot"></span> Materiaalikartta · päivitetty 22.10.2026</span></header>
+
+    <div class="scope-note" style="margin-top:24px"><strong>Kaikki tällä sivulla kuvatut tehtäväperheet ovat pelissä.</strong> Alkuperäinen toteutussuunnitelma on erillisenä dokumentaationa. <a href="./index.html"><u>Avaa Fysiikka Sprintti →</u></a></div>
+    <section id="yhteenveto" class="page" aria-labelledby="overview-title">
+      <div class="hero">
+        <div class="hero-copy"><p class="eyebrow">YHDEN PÄIVÄN FYSIIKKASPRINTTI</p><h1 id="overview-title">Ymmärrä ratkaisu.<br><em>Älä opettele vastausta.</em></h1><p class="lead">Harjoittelupeli opettaa voimat, kitkan ja liikkeen vaihtuvilla tehtävillä — yksi oivallus kerrallaan. Tämä kartta näyttää, mistä aineistosta tehtävät on koottu.</p><a class="primary" href="#tehtavat">Tutustu tehtäväpankkiin <span aria-hidden="true">→</span></a><p class="hero-caption">Pelaa tehtäviä pelin etusivulla. Taidot-näkymästä voit valita minkä tahansa perheen.</p></div>
+        <div class="hero-art" role="img" aria-label="Suunnitelman periaate: tunnista tilanne, muodosta yhtälö ja ymmärrä ratkaisu. Koristeellinen voimakaavio.">
+          <div class="art-top">RATKAISUN ANATOMIA <span>01 / 03</span></div>
+          <svg viewBox="0 0 320 210" aria-hidden="true"><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#f4c27b"/></marker><marker id="white-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#c9e3d7"/></marker></defs><g stroke="#ffffff" stroke-opacity=".08"><path d="M25 45H300M25 85H300M25 125H300M25 165H300M65 20V195M105 20V195M145 20V195M185 20V195M225 20V195M265 20V195"/></g><path d="M38 172H288" stroke="#a0bdb2" stroke-width="2"/><rect x="115" y="108" width="75" height="64" rx="8" fill="#d0e4d5"/><path d="M153 137V49" stroke="#f4c27b" stroke-width="3" marker-end="url(#arrow)"/><path d="M153 137L251 79" stroke="#f4c27b" stroke-width="3" marker-end="url(#arrow)"/><path d="M153 137V201" stroke="#c9e3d7" stroke-width="3" marker-end="url(#white-arrow)"/><text x="163" y="51" fill="#f4c27b" font-size="16">N</text><text x="260" y="81" fill="#f4c27b" font-size="16">F</text><text x="168" y="201" fill="#c9e3d7" font-size="16">G</text><circle cx="153" cy="137" r="4" fill="#174d45"/></svg>
+          <div class="equation">ΣF = ma</div><div class="art-bottom"><span>Havaitse.</span><span>Muodosta.</span><span>Ratkaise.</span></div>
+        </div>
+      </div>
+      <div class="stats"><div><strong>26</strong><span>lähdetiedostoa luettu</span></div><div><strong>36</strong><span>PDF-sivua tarkastettu</span></div><div><strong>18</strong><span>viikkotehtävää kartoitettu</span></div><div><strong>33</strong><span>tehtäväperhettä pelissä</span></div></div>
+      <div class="section-heading"><div><p class="eyebrow">KOLME PÄÄALUETTA</p><h2>Yksi selkeä oppimispolku.</h2></div><a class="text-link" href="#materiaalit">Näytä lähteet <span aria-hidden="true">↗</span></a></div>
+      <div class="topic-grid">
+        <a class="topic-card" href="#tehtavat" data-category-link="Voimat"><span class="topic-num">01</span><div class="topic-symbol" aria-hidden="true">F⃗</div><h3>Voimat & Newton</h3><p>Voimakuva, tasapaino, komponentit ja kiihtyvyys. Ensin malli, sitten lasku.</p><div class="card-footer"><span>15 tehtäväperhettä</span><span aria-hidden="true">↗</span></div></a>
+        <a class="topic-card" href="#tehtavat" data-category-link="Kitka"><span class="topic-num">02</span><div class="topic-symbol" aria-hidden="true">μ</div><h3>Kitka & pinnat</h3><p>Lepo vai liike? Oikea tukivoima ratkaisee, kuinka suuri kitka on.</p><div class="card-footer"><span>6 tehtäväperhettä</span><span aria-hidden="true">↗</span></div></a>
+        <a class="topic-card" href="#tehtavat" data-category-link="Liike"><span class="topic-num">03</span><div class="topic-symbol" aria-hidden="true">v(t)</div><h3>Liike & kuvaajat</h3><p>Kulmakerroin, pinta-ala ja etumerkki tekevät liikkeestä ymmärrettävää.</p><div class="card-footer"><span>9 tehtäväperhettä</span><span aria-hidden="true">↗</span></div></a>
+      </div>
+      <div class="insight"><span class="insight-icon" aria-hidden="true">!</span><div><h3>Yksi tärkeä korjaus lähteeseen</h3><p>VT4 / 2:ssa laatikko on paikallaan. Silloin kyse on <strong>lepokitkasta</strong>, vaikka tehtävätekstissä lukee liikekitka. Pelissä käsitteet erotetaan ja syy selitetään.</p></div></div>
+      <div class="section-heading"><div><p class="eyebrow">SUUNNITELTU OPPIMISMALLI</p><h2>Oivallus ennen onnistumispistettä.</h2></div></div>
+      <div class="method-row"><div><span>1</span><h3>Tunnista tilanne</h3><p>Mikä kappale? Mitkä voimat? Mikä muuttuu?</p></div><div><span>2</span><h3>Muodosta yhtälö</h3><p>Valitse laki, akselit ja oikeat etumerkit.</p></div><div><span>3</span><h3>Laske & tulkitse</h3><p>Uudet luvut, muuttuvat vihjeet ja tuloksen tarkistus.</p></div></div>
+      <div class="document-banner"><div><h3>Kartoitus ja vaatimukset kokonaisuudessaan</h3><p>Kaikki tiedostot, 18 tehtävän kattavuus, satunnaistussäännöt ja hyväksymiskriteerit.</p></div><div class="doc-actions"><a href="./MATERIAALIKARTOITUS.md">Materiaalikartoitus ↗</a><a href="./TOTEUTUSSUUNNITELMA.md">Toteutussuunnitelma ↗</a></div></div>
+    </section>
+
+    <section id="tehtavat" class="page" aria-labelledby="tasks-title" hidden>
+      <p class="eyebrow">PELIN TEHTÄVÄPANKKI</p><h1 id="tasks-title" class="page-title">33 tapaa oppia ratkaisemaan.</h1><p class="lead">Yksi perhe tuottaa monia uusia tehtäviä. Perheen sisällä vaihtuvat luvut, kysyttävä suure, suunta ja perustelut. Kaikki alla olevat perheet ovat pelattavissa pelin Edistyminen-näkymästä.</p>
+      <div class="filter-bar"><label>Hae tehtäväperhettä<input id="task-search" type="search" placeholder="Esim. hissi, kitka, kuvaaja…"></label><label>Aihe<select id="task-category"><option value="all">Kaikki aiheet</option><option>Voimat</option><option>Kitka</option><option>Liike</option><option>Mittaus</option></select></label><label>Sisältö<select id="task-priority"><option value="all">Kaikki</option><option value="P1">P1 · viikkotehtävien ydin</option><option value="P2">P2 · täydentävä</option><option value="P3">P3 · mittaustehtävät</option></select></label><button id="reset-filters" class="secondary" type="button">Tyhjennä</button></div>
+      <div class="results-bar"><p id="task-count" role="status" aria-live="polite"></p><span>P1: 17 &nbsp; / &nbsp; P2: 13 &nbsp; / &nbsp; P3: 3</span></div>
+      <div id="task-list" class="task-grid"></div>
+      <noscript><p>Tehtäväluettelon selaus tarvitsee JavaScriptin. Koko luettelo on myös <a href="./TOTEUTUSSUUNNITELMA.md">toteutussuunnitelmassa</a>.</p></noscript>
+    </section>
+
+    <section id="materiaalit" class="page" aria-labelledby="sources-title" hidden>
+      <p class="eyebrow">KOKO LÄHDEKANSIO</p><h1 id="sources-title" class="page-title">26 tiedostoa. Yhteinen runko.</h1><p class="lead">Kaikki alkuperäiset tekstit, PDF-sivut ja kuvat on tarkastettu. Pelissä on omat tehtävät ja dynaamiset kuviot; alkuperäisaineistoa ei ole kopioitu.</p>
+      <div class="scope-note"><strong>Koerajaus on oletus.</strong> Viikkotehtävät 3–5 ovat pelin ydinsisältö. Aineistosta ei löytynyt opettajan erillistä koerajausta.</div>
+      <div class="section-heading"><h2>Tekstit ja PDF:t <span class="muted">/ 11</span></h2></div><div id="source-docs" class="source-list"></div>
+      <div class="section-heading"><h2>Kuvat <span class="muted">/ 15</span></h2></div><div id="source-images" class="source-list image-list"></div>
+      <p class="footnote">Luettelo kertoo lähteistä. Alkuperäiset tiedostot eivät ole tämän sivun resursseja, joten niitä ei linkitetä puuttuviin verkkopolkuihin.</p>
+      <a class="primary" href="./MATERIAALIKARTOITUS.md">Lue kattavuus ja lähdehuomiot ↗</a>
+    </section>
+
+    <section id="toteutus" class="page" aria-labelledby="build-title" hidden>
+      <p class="eyebrow">NÄIN PELI ON RAKENNETTU</p><h1 id="build-title" class="page-title">Kevyt tekniikka.<br>Huolellinen pedagogiikka.</h1><p class="lead">Peli toimii selaimessa ilman palvelinta tai maksullisia rajapintoja, myös offline-sovelluksena. Samat lähtöarvot ohjaavat kuvaa, tarkistusta, vihjeitä ja ratkaisua.</p>
+      <div class="requirements-grid"><article><span class="mini-label">01 / SISÄLTÖ</span><h3>Arvot vaihtuvat. Menetelmä säilyy.</h3><p>Satunnaistus tarkistaa tasapainon, tukivoiman ja ajan rajat. Sini ja kosini määräytyvät aina kuvan kulman määritelmästä.</p></article><article><span class="mini-label">02 / OHJAUS</span><h3>Kolme vihjetasoa.</h3><p>Havainto → yhtälö → sijoitus. Sen jälkeen koko malliratkaisu nykyisillä arvoilla. Avustettu suoritus erotetaan itsenäisestä.</p></article><article><span class="mini-label">03 / KERTAUS</span><h3>Heikko taito palaa uusilla luvuilla.</h3><p>Lyhyet kierrokset, eri aiheiden yhdistely ja koeharjoitus. Osaaminen vahvistuu vasta useista itsenäisistä varianteista.</p></article><article><span class="mini-label">04 / TOTEUTUS</span><h3>HTML + CSS + JavaScript.</h3><p>SVG-kuvaajat ja voimanuolet, selaintallennus ja suhteelliset polut. Toiminta paikallisena kansiona sekä GitHub Pagesissa.</p></article></div>
+      <div class="section-heading"><div><p class="eyebrow">TOTEUTUKSEN PORTAAT</p><h2>Ensin koko ratkaisuketju.</h2></div></div>
+      <ol class="roadmap"><li class="done"><span>VALMIS</span><h3>Materiaalit ja suunnitelma</h3><p>26 tiedostoa, tehtäväperheet, lähdehuomiot ja tarkistettavat vaatimukset.</p></li><li class="done"><span>VALMIS</span><h3>Kokonaiset tehtävät</h3><p>Arvonta, kuvio, vihjeet, tarkistus ja palaute toimivat jokaisessa perheessä.</p></li><li class="done"><span>VALMIS · P1</span><h3>Viikkotehtävien kaikki aihepiirit</h3><p>17 perhettä, voimakuvat, kuvaajat, opetuspolut, kertaus, osaamisseuranta ja koekierros.</p></li><li class="done"><span>VALMIS · P2 + P3</span><h3>Laajennukset ja viimeistely</h3><p>Täydentävät sovellukset, mittaustehtävät, PWA-asennus ja käyttöliittymän viimeistely.</p></li></ol>
+      <div class="section-heading"><div><p class="eyebrow">EHDOTUS HARJOITTELUPÄIVÄLLE</p><h2>Noin 4 h 20 min aktiivista harjoittelua.</h2><p class="muted">Lisäksi vähintään 50 min taukoja. Painota heikkoja kohtia oman lähtötasosi mukaan.</p></div></div>
+      <div class="day-plan"><div><strong>15 min</strong><span>Lähtötaso</span></div><div><strong>50 min</strong><span>Voimat</span></div><div><strong>45 min</strong><span>Kitka</span></div><div><strong>60 min</strong><span>Liike</span></div><div><strong>30 min</strong><span>Sekakertaus</span></div><div><strong>40 min</strong><span>Koe & purku</span></div><div><strong>20 min</strong><span>Myöhempi paluu</span></div></div>
+      <div class="insight"><span class="insight-icon" aria-hidden="true">✓</span><div><h3>Valmistuminen tarkoittaa toimivuutta</h3><p>Jokainen viikkotehtävän aihe katettu. Uudet luvut kaikissa ratkaisun kohdissa. Oikeat etumerkit ja pyöristykset. Ei ulkoisia riippuvuuksia. Ei keksittyä osaamishistoriaa.</p></div></div>
+      <div class="document-banner"><div><h3>GitHub Pages -valmis rakenne</h3><p>Tämän kansion sisältö repositorion juureen, Pages lähteeksi haara ja /(root). Tällä hetkellä julkaistuisi suunnitelma. Mitään ei ole pushettu tai julkaistu.</p><a class="text-link" href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">GitHubin virallinen julkaisuohje ↗</a></div><div class="doc-actions"><a href="./TOTEUTUSSUUNNITELMA.md">Kaikki hyväksymiskriteerit ↗</a><a href="./README.md">Kansion ohjeet ↗</a></div></div>
+    </section>
+    <footer class="main-footer"><span>FYSIIKKA SPRINTTI</span><span>Alkuperäinen kartoitus ja suunnitelma</span></footer>
+  </main>
+</body>
+</html>

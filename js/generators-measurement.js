@@ -1,0 +1,18 @@
+(function(P){
+  'use strict';
+  const {g,format:f,number:n}=P;
+  const c=(r,label,options,correct=0)=>P.choice(label,options,correct,r);
+  const add=(id,title,source,make)=>P.register(id,title,'Mittaus','P3',source,make);
+  add('M01','Kitkakerroin mittaustaulukosta','Mittaustehtävä 2 / s. 1',r=>{
+    const mu=r.step(.15,.45,.01),base=r.int(2,4),masses=[1,2,3,4].map(x=>x*base),rows=masses.map(m=>[f(m),f(m*g,2),f(mu*m*g,4)]),i=r.int(0,3);
+    return {context:'Synteettinen ideaalinen vetokoe: kappale liikkuu jokaisessa vedossa vakionopeudella. Voima on vaakasuora. Taulukon F-arvot ovat vetovoimia, eivät kokonaisvoimia.',table:{headers:['m (kg)','N (N)','F (N)'],rows},fields:[n(`Kitkakerroin riviltä ${i+1}`,mu,'',3),c(r,'Mikä on F(N)-suoran kulmakertoimen merkitys?',['Liikekitkakerroin μk.','Kappaleen massa.','Putoamiskiihtyvyys g.'])],hints:P.hints('Vakionopeudella vetovoima tasapainottaa liikekitkan.','F = f_k = μkN, joten μk = F/N.',`Rivi ${i+1}: μk = ${rows[i][2]}/${rows[i][1]}.`),steps:[`μk = F/N = ${f(mu,4)}.`,`F pystyakselilla ja N vaaka-akselilla → kulmakerroin ΔF/ΔN = μk.`],conclusion:'Kitkakerroin on yksikötön. Tämä harjoitusdata on ideaalista, eikä sisällä mittaushajontaa.'};
+  });
+  add('M02','Punnus ja toistomittaukset','Mittaustehtävä 2 / s. 2–3',r=>{
+    const m=r.step(.4,2,.1),angle=r.int(15,40),G=m*g,ideal=G*Math.tan(P.rad(angle)),F=Math.round(ideal*100)/100,values=[F-.03,F,F+.03],T=Math.hypot(F,G);
+    return {context:`Punnus (massa ${f(m)} kg) on vedetty sivulle vaakasuuntaisella jousivaa’alla. Narun kulma pystystä on noin ${angle}°. Alla ovat synteettiset toistomittaukset. Laske narun jännitys mitattujen voimien keskiarvosta ja painovoimasta, älä pyöristetystä kulmasta.`,table:{headers:['Mittaus','F (N)'],rows:values.map((v,i)=>[String(i+1),f(v,2)])},fields:[n('Vetovoiman keskiarvo',F,'N',2),n('Painovoima G',G,'N',2),n('Narun jännityksen suuruus T',T,'N',2),n('Narun vaakakomponentin suuruus |Tx|',F,'N',2)],hints:P.hints('Toistot keskiarvoistetaan. Narun komponentit tasapainottavat vaakavedon ja painovoiman.','F̄ = (F₁+F₂+F₃)/3, G = mg ja T = √(F̄² + G²).',`F̄ = (${values.map(v=>f(v,2)).join(' + ')})/3. G = ${f(m)}·9,81.`),steps:[`F̄ = ${f(F,4)} N; G = ${f(G,4)} N.`,`T = √(${f(F,4)}² + ${f(G,4)}²) = ${f(T,6)} N.`,`|Tx| = F̄ ja Ty = G. Voimista arvioitu kulma on ${f(Math.atan(F/G)*180/Math.PI,4)}°.`],conclusion:'Mitattu kulma ja voimista laskettu kulma voivat poiketa pyöristyksen ja mittausepävarmuuden vuoksi.'};
+  });
+  add('M03','Mittausraportin tulkinta','Mittaustehtävä 2 / s. 1–5',r=>{
+    const m=r.int(2,8),mu=r.step(.15,.4,.05),N=m*g,F=mu*N;
+    return {context:`Vetokokeessa massa on ${m} kg ja vakionopeuden vetovoima ${f(F,4)} N. Tarkastele tuloksen esittämistä.`,fields:[c(r,'Mitkä akselit kuvaavat suoraan yhtälöä F = μN?',['Vaaka: N (N), pysty: F (N).','Vaaka: aika (s), pysty: massa (kg).','Vaaka: F (N), pysty: massa (kg).']),c(r,'Mikä on oikea kaava–sijoitus–tulos-ketju?',[`μ = F/(mg) = ${f(F,4)}/(${m}·9,81) = ${f(mu)}.`,`μ = mg/F = ${f(1/mu,4)} N.`,`μ = Fm = ${f(F*m,4)} kg.`]),c(r,'Millä kaaviotyypillä esität mitatut (N,F)-arvoparit?',['Pistekuvaajalla, johon voidaan sovittaa suora.','Ympyräkaaviolla.','Pelkällä kategorisella pylväskaaviolla.'])],hints:P.hints('Akselit ja yksiköt määräytyvät fysikaalisesta mallista.','F = μN: selitettävä F pystyakselille ja N vaaka-akselille. μ = F/N.',`N = ${m}·9,81 = ${f(N,3)} N. μ = ${f(F,4)}/${f(N,3)}.`),steps:['Valitse pistekuvaaja: x = N (N), y = F (N).',`Kirjoita kaava, sijoitus ja tulos: μ = F/(mg) = ${f(mu)}. Kerroin on yksikötön.`],conclusion:'Raportti näyttää lukuarvon lisäksi, miten tulos syntyi ja mitä se tarkoittaa.'};
+  });
+})(typeof window!=='undefined'?window.Physics:globalThis.Physics);

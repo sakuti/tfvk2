@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fi" data-theme="dark"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><meta name="theme-color" content="#202023">
+<meta name="description" content="Opi ratkaisemaan fysiikan tehtävät. Satunnaiset arvot, vaiheittaiset vihjeet, voimakuvat ja kuvaajat. Toimii paikallisesti.">
+<title>Fysiikka Sprintti — opi ratkaisemaan</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="./assets/icons/icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+<link rel="preload" href="./assets/fonts/Manrope-Variable.ttf" as="font" type="font/ttf" crossorigin>
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Sprintti">
+<script src="./js/theme.js"></script>
+<link rel="stylesheet" href="./css/game.css">
+<script defer src="./js/core.js"></script><script defer src="./js/generators-forces.js"></script><script defer src="./js/generators-friction.js"></script><script defer src="./js/generators-motion.js"></script><script defer src="./js/generators-measurement.js"></script><script defer src="./js/diagrams.js"></script><script defer src="./js/session.js"></script><script defer src="./js/media.js"></script><script defer src="./js/lessons.js"></script><script defer src="./js/app.js"></script><script defer src="./js/pwa.js"></script>
+</head><body>
+<svg class="icon-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+<symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2" fill="currentColor"/></symbol>
+<symbol id="i-reset" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4.5H9"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="i-speaker" viewBox="0 0 24 24"><path d="m11 5-5 4.5H3v5h3l5 4.5V5Zm4.5 3.5c2 2 2 5 0 7m3-10c3.8 3.6 3.8 9.4 0 13"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/></symbol>
+</svg>
+<a class="skip-link" href="#main">Siirry sisältöön</a>
+<nav class="app-nav" aria-label="Päänavigaatio">
+<a href="#home" class="nav-brand" aria-label="Fysiikka Sprintti, etusivu"><span class="brand-mark" aria-hidden="true">Σ</span></a>
+<a href="#home" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v9a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2Z"/></svg><span>Opettele</span></a>
+<a href="#skills" data-nav="skills"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10m8 10V4m8 16v-7"/></svg><span>Edistyminen</span></a>
+<a href="#formulas" data-nav="formulas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c-3-2-7-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2-1-6-1-9 1Zm0 0v15"/></svg><span>Kaavat</span></a>
+<a href="#settings" data-nav="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-settings"/></svg><span>Asetukset</span></a>
+</nav>
+<main id="main" tabindex="-1"><header class="topbar"><a href="#home" class="brand" aria-label="Fysiikka Sprintti, etusivu"><span class="brand-mark" aria-hidden="true">Σ</span><span>fysiikka<span class="brand-sub">sprintti</span></span></a><div class="topbar-right"><span class="xp-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7Z"/></svg><span id="xp-label">0 pistettä</span></span></div></header>
+<div id="storage-warning" class="notice" role="status" hidden>Tallennus ei ole käytettävissä. Voit harjoitella, mutta eteneminen säilyy vain tämän avoimen sivun muistissa.</div>
+<div id="sync-notice" class="notice info" role="status" hidden></div>
+<noscript><div class="notice">Harjoittelu tarvitsee JavaScriptin. Salli JavaScript tälle paikalliselle sivulle ja avaa sivu uudelleen.</div></noscript>
+<div id="resume-banner" class="resume-banner" hidden><p id="resume-banner-text"></p><button type="button" id="resume-top" class="button primary compact">Jatka harjoittelua <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button></div>
+<section id="view-home" class="view" aria-labelledby="home-title">
+<div class="page-heading"><div><p class="eyebrow">PIENI ASKEL JOKA PÄIVÄ</p><h1 id="home-title">Oma oppimispolku<span class="accent-dot">.</span></h1></div><a href="#settings" class="round-link" aria-label="Avaa asetukset"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-settings"/></svg></a></div>
+<div class="home-grid">
+<div class="home-overview">
+<div class="progress-hero"><span class="orbit-symbol orbit-one" aria-hidden="true">F⃗</span><span class="orbit-symbol orbit-two" aria-hidden="true">μ</span><span class="orbit-symbol orbit-three" aria-hidden="true">v²</span>
+<div id="mastery-gauge" class="mastery-gauge" role="progressbar" aria-label="Vahvistetut taidot valitussa sisällössä" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><svg viewBox="0 0 300 170" aria-hidden="true"><defs><linearGradient id="progress-gradient"><stop stop-color="#8d5de5"/><stop offset="1" stop-color="#d6b6ff"/></linearGradient></defs><path class="gauge-track" d="M24 150a126 126 0 0 1 252 0" pathLength="100"/><path id="mastery-arc" class="gauge-fill" d="M24 150a126 126 0 0 1 252 0" pathLength="100" stroke-dasharray="0 100"/></svg><div class="gauge-copy"><strong id="mastery-percent">0<span>%</span></strong><span class="gauge-fraction" id="mastery-fraction">0 / 17</span></div></div><p class="gauge-caption" id="gauge-caption">ydintaidoista vahvistettu</p>
+</div>
+<div class="progress-strip"><div class="metric-card"><div class="metric-top"><strong id="stat-independent">0</strong><span class="metric-tag">itse</span></div><span>itsenäistä onnistumista</span></div><div class="metric-card"><div class="metric-top"><strong id="stat-practiced">0 / 17</strong><span class="metric-tag cool" id="practiced-tag">ydin</span></div><span id="practiced-label">ydintaitoa harjoiteltu</span></div></div>
+<p id="scope-note" class="scope-note"></p>
+</div>
+<div class="home-actions">
+<article class="next-lesson"><div class="section-kicker"><span class="tiny-dot"></span> SEURAAVA OIVALLUS <span class="lesson-duration">OMA TAHTI</span></div><h2 id="next-lesson-title">Mistä voima syntyy?</h2><p id="next-lesson-description">Animaatio, selkeä esimerkki ja oma tehtävä. Yksi asia kerrallaan.</p><div id="resume-card" class="resume-card" hidden><p id="resume-description"></p><button type="button" id="resume-home" class="button primary">Jatka siitä mihin jäit <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button></div><div class="hero-actions"><button class="button primary" id="start-learn" type="button">Opettele alusta</button></div><label class="scope-select">Harjoiteltava sisältö<select id="scope"><option value="P1">Viikkotehtävien ydin · 17 taitoa</option><option value="all">Kaikki materiaalit · 33 taitoa</option></select></label><p id="lesson-progress" class="lesson-progress"></p></article>
+<div class="encouragement"><span class="encouragement-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 3 8l9 5 9-5-9-5Zm-6 8v6c3 3 9 3 12 0v-6M21 8v8"/></svg></span><div><strong id="home-encouragement">Ymmärrä ensin. Osaat pian.</strong><p id="home-encouragement-note">Katso ilmiö, oivalla idea ja kokeile itse.</p></div></div>
+</div>
+</div>
+<div class="section-head"><h2>Valitse oma aihe</h2><a class="text-link" href="#skills">Kaikki taidot <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></div>
+<div class="topic-grid"><button class="topic-card" data-topic="Voimat" type="button"><span class="topic-sign lavender" aria-hidden="true">F⃗</span><div><h3>Voimat & Newton</h3><p>Voimakuvasta oivallukseen</p><div class="topic-progress"><span data-progress="Voimat"></span></div><span class="topic-meta" data-topic-meta="Voimat"></span></div><svg class="icon topic-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button><button class="topic-card" data-topic="Kitka" type="button"><span class="topic-sign amber" aria-hidden="true">μ</span><div><h3>Kitka & pinnat</h3><p>Liikkeelle vai paikalleen?</p><div class="topic-progress"><span data-progress="Kitka"></span></div><span class="topic-meta" data-topic-meta="Kitka"></span></div><svg class="icon topic-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button><button class="topic-card" data-topic="Liike" type="button"><span class="topic-sign blue" aria-hidden="true">v</span><div><h3>Liike & kuvaajat</h3><p>Näe mitä nopeus kertoo</p><div class="topic-progress"><span data-progress="Liike"></span></div><span class="topic-meta" data-topic-meta="Liike"></span></div><svg class="icon topic-arrow" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div>
+<details class="home-options"><summary>Muut harjoittelutavat<svg class="icon chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary>
+<div class="mode-grid"><button class="mode-card" id="start-baseline" type="button"><span class="card-icon" aria-hidden="true">◎</span><div><h3>Testaa lähtötasosi</h3><p>9 tehtävää · löydä aloituskohtasi</p></div><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button><button class="mode-card" id="start-weak" type="button"><span class="card-icon" aria-hidden="true">↺</span><div><h3>Vahvista vaikeita kohtia</h3><p>8 tehtävää · uudet arvot, uusi yritys</p></div><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button><button class="mode-card" id="start-exam" type="button"><span class="card-icon" aria-hidden="true">◇</span><div><h3>Kokeile koetilannetta</h3><p>12 tehtävää · tarkista ja palauta lopussa</p></div><svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></button></div><label class="timer-option"><input type="checkbox" id="timed-exam"> Koekierrokselle 30 minuutin tavoiteaika</label></details>
+<div class="study-tip"><span aria-hidden="true">✳</span><p>Pieni tauko auttaa oppimaan. Palaa vaikeaan aiheeseen myöhemmin uusilla luvuilla.</p></div>
+<div class="quiet-stats"><span><strong id="stat-mastered">0</strong> <span id="mastered-label">vahvistettua ydintaitoa</span></span><span><strong id="stat-rounds">0</strong> valmista kierrosta</span></div>
+</section>
+<section id="view-play" class="view play-view" aria-labelledby="task-title" hidden>
+<header class="play-header"><button type="button" id="back-home" class="back-button"><svg class="icon" aria-hidden="true"><use href="#i-arrow-left"/></svg><span>Tallenna ja poistu</span></button><div class="play-meta"><span id="session-mode"></span><span id="session-count"></span></div></header>
+<div class="session-progress" role="progressbar" aria-label="Kierroksen eteneminen" aria-valuemin="0" aria-valuemax="100" id="session-progress"><span></span></div>
+<form id="answer-form" novalidate autocomplete="off">
+<div id="play-layout" class="play-layout">
+<div class="play-head">
+<div id="lesson-path" class="lesson-path" hidden></div>
+<div class="wizard-step-heading"><span id="wizard-step-label" class="step-label">Tutustu tilanteeseen</span><span id="task-time" class="quiet"></span></div>
+<span id="task-tag" class="wizard-topic"></span><h1 id="task-title" class="task-title"></h1>
+</div>
+<div id="task-intro" class="play-context"><details id="context-details" class="context-details"><summary>Tehtävänanto<svg class="icon chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary><p id="task-context" class="task-context"></p></details><div id="task-givens" class="givens" hidden></div><details id="visual-details" class="visual-details"><summary>Tilannekuva ja taulukko<svg class="icon chevron" aria-hidden="true"><use href="#i-chevron-down"/></svg></summary><div id="diagram-container" class="diagram-container"></div><div id="table-container"></div></details></div>
+<div class="play-work">
+<div id="exam-review" class="exam-review" hidden></div>
+<div id="lesson-panel" hidden></div>
+<div id="task-fields"></div>
+<div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+<div id="solution-panel" class="solution-panel" hidden></div>
+<button type="button" id="lesson-button" class="step-tool lesson-repeat" hidden>Kertaa opetus</button>
+<details id="lesson-audio" class="lesson-audio"><summary><svg class="icon" aria-hidden="true"><use href="#i-speaker"/></svg><span>Ääni ja selostus</span><span id="narration-chip" class="narration-chip" hidden></span><span class="chevron-box" aria-hidden="true"><svg class="icon chevron"><use href="#i-chevron-down"/></svg></span></summary><div class="audio-settings">
+<div class="audio-row" id="narration-row"><span class="audio-row-label">Selostus</span><div class="audio-row-controls"><button type="button" id="narrate-lesson" class="step-tool"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg><span>Kuuntele selitys</span></button><button type="button" id="stop-narration" class="step-tool" hidden><svg class="icon" aria-hidden="true"><use href="#i-stop"/></svg><span>Pysäytä</span></button></div><p id="narration-status" class="audio-status" role="status" aria-live="polite"></p></div>
+<div class="audio-row"><span class="audio-row-label" id="sound-toggle-label">Palauteäänet</span><div class="audio-row-controls"><button type="button" id="sound-toggle" class="switch" aria-pressed="false" aria-labelledby="sound-toggle-label sound-toggle-state"><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span id="sound-toggle-state">Pois</span></button></div></div>
+<div class="audio-row"><label class="audio-row-label" for="sound-volume">Voimakkuus</label><div class="volume-control"><input id="sound-volume" class="range" type="range" min="0" max="100" step="5" value="30" aria-describedby="sound-volume-value"><output id="sound-volume-value" for="sound-volume">30 %</output></div></div>
+<p id="voice-note" class="audio-status" hidden></p>
+</div></details>
+<div id="step-tools" class="step-tools"><div class="step-tool-buttons"><button type="button" id="hint-button" class="step-tool">Vihje 1 / 3</button><button type="button" id="formula-button" class="step-tool">Avaa kaavatuki</button><button type="button" id="solution-button" class="step-tool">Katso ratkaisu</button></div><div id="hint-list" class="hint-list" aria-live="polite"></div><div id="inline-formulas" hidden></div><p id="support-note" class="support-note"></p><button type="button" id="skip-task" class="text-button">Ohita tehtävä</button></div>
+<div id="task-constants" class="wizard-constants">g = 9,81 m/s² <span>· laskin asteille (DEG)</span></div>
+<details class="source-details"><summary>Lähde ja tehtävän tunniste</summary><p id="task-source" class="source-note"></p></details>
+</div>
+</div>
+<footer class="play-actions"><button type="button" id="previous-step" class="text-button" hidden>Takaisin</button><button type="submit" id="check-answer" class="button primary">Tarkista</button><button type="button" id="next-task" class="button primary" hidden>Aloita ratkaiseminen</button></footer>
+</form></section>
+<section id="view-results" class="view" aria-labelledby="results-title" hidden><p class="eyebrow" id="results-eyebrow">HYVÄ HETKI HUOMATA EDISTYMINEN</p><h1 id="results-title">Kierros ratkaistu.</h1><p class="lead" id="results-description"></p><div id="result-stats" class="result-stats"></div><div class="results-actions"><button type="button" id="results-weak" class="button primary">Vahvista seuraavaksi <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></button><a href="#home" class="button secondary">Etusivulle</a></div><h2 class="review-heading">Opi vielä ratkaisuista.</h2><p class="muted">Avaa tehtävä nähdäksesi omat vastauksesi ja koko ratkaisuketjun.</p><div id="result-review" class="result-review"></div></section>
+<section id="view-skills" class="view" aria-labelledby="skills-title" hidden><p class="eyebrow">OMAT TAIDOT, TODENNETTU EDELLÄ</p><h1 id="skills-title">Mitä jo osaat?<br><em>Mitä oivalletaan seuraavaksi?</em></h1><p class="lead">Taito etenee vaiheittain: opetus käyty, harjoittelu aloitettu, itsenäinen onnistuminen ja vahvistettu taito. Vahvistus vaatii kolme erilaista itsenäistä onnistumista vähintään kahdella kierroksella.</p><div class="skills-controls"><label>Aihe<select id="skill-category"><option value="all">Kaikki aiheet</option><option>Voimat</option><option>Kitka</option><option>Liike</option><option>Mittaus</option></select></label><label>Sisältö<select id="skill-priority"><option value="P1">Viikkotehtävien ydin</option><option value="all">Kaikki materiaalit</option></select></label></div><div id="skills-list" class="skills-list"></div><div class="section-head"><h2>Viimeiset kierrokset</h2><span id="history-count" class="quiet"></span></div><div id="history-list" class="history-list"></div><button type="button" id="history-more" class="button secondary history-more" hidden>Näytä lisää</button><details class="reset-section"><summary>Tallennus ja tietojen nollaus</summary><p>Edistyminen on vain tässä selaimessa. Sivusto ei lähetä tuloksia palvelimelle. Jos selaimen tallennus tyhjennetään, myös tulokset häviävät.</p><button type="button" id="reset-progress" class="text-button danger">Nollaa edistyminen</button></details></section>
+<section id="view-formulas" class="view" aria-labelledby="formulas-title" hidden><p class="eyebrow">TUNNISTA KÄYTTÖEHTO, SITTEN SIJOITA</p><h1 id="formulas-title">Kaava on alku.<br><em>Tilanne ratkaisee.</em></h1><p class="lead">Kaavakorttien selaaminen täällä ei muuta tehtäviäsi. Kesken olevassa tehtävässä kaavatuki kirjataan tuetuksi vain, kun valitset sen itse. Koekierroksella tuki avautuu vasta lopussa.</p><div id="formula-session" class="formula-session" hidden><p id="formula-session-text"></p><button type="button" id="formula-use" class="button secondary compact">Käytä kaavatukea tehtävässä</button></div><div id="formula-cards" class="formula-grid"></div></section>
+<section id="view-settings" class="view" aria-labelledby="settings-title" hidden><p class="eyebrow">OMA TAHTI. OMA TAPA.</p><h1 id="settings-title">Tee olosi kotoisaksi<span class="accent-dot">.</span></h1>
+<div class="settings-grid">
+<article class="settings-card install-card"><span class="settings-icon" aria-hidden="true">↓</span><h2>Sprintti taskuun</h2><p id="install-description">Lisää sovellus puhelimen aloitusnäytölle ja opiskele myös ilman yhteyttä.</p><button type="button" id="install-app" class="button primary">Lisää aloitusnäytölle</button><p id="install-instructions" class="muted" hidden></p><p id="offline-status" class="offline-status" role="status">Tarkistetaan offline-valmiutta…</p></article>
+<article class="settings-card"><h2>Ulkoasu</h2><p>Hämärään hetkeen tai kirkkaaseen päivään.</p><button type="button" id="theme-toggle" class="button secondary" aria-label="Vaihda vaaleaan teemaan">Vaalea teema</button></article>
+<article class="settings-card audio-card"><h2>Ääni</h2><p>Palauteäänet soivat tarkistuksessa. Selostuksen voi kuunnella opetussivuilla.</p><div class="audio-settings">
+<div class="audio-row"><span class="audio-row-label" id="settings-sound-label">Palauteäänet</span><div class="audio-row-controls"><button type="button" id="settings-sound-toggle" class="switch" aria-pressed="false" aria-labelledby="settings-sound-label settings-sound-state"><span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span><span id="settings-sound-state">Pois</span></button></div></div>
+<div class="audio-row"><label class="audio-row-label" for="settings-volume">Voimakkuus</label><div class="volume-control"><input id="settings-volume" class="range" type="range" min="0" max="100" step="5" value="30" aria-describedby="settings-volume-value"><output id="settings-volume-value" for="settings-volume">30 %</output></div></div>
+<p id="settings-voice-note" class="audio-status"></p>
+</div></article>
+<article class="settings-card"><h2>Omat materiaalit</h2><p>33 taitoa viikkotehtävistä ja muista kurssimateriaaleista.</p><a href="./suunnitelma.html" class="settings-link">Avaa materiaalikartta <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a><a href="./ohje.html" class="settings-link">Käyttöohje <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a></article>
+</div>
+<p class="settings-privacy">Edistyminen säilyy vain tässä selaimessa ja tällä laitteella. Voit tyhjentää sen Edistyminen-näkymästä.</p>
+</section>
+<footer class="footer"><span>FYSIIKKA SPRINTTI</span><span>Ymmärrä, miten.</span></footer></main>
+<dialog id="replace-dialog" class="confirm-dialog" aria-labelledby="replace-title"><form method="dialog"><p class="eyebrow">KESKEN OLEVA KIERROS</p><h2 id="replace-title">Aloitetaanko uusi kierros?</h2><p id="replace-description"></p><div class="dialog-actions"><button value="resume" class="button secondary">Jatka keskeneräistä</button><button value="confirm" class="button primary">Aloita uusi kierros</button><button value="cancel" class="text-button">Peru</button></div></form></dialog>
+<dialog id="reset-dialog" class="confirm-dialog" aria-labelledby="reset-title"><form method="dialog"><p class="eyebrow">EDISTYMISEN NOLLAUS</p><h2 id="reset-title">Poistetaanko tämän selaimen tulokset?</h2><p>Myös kesken oleva kierros poistetaan. Tätä ei voi perua.</p><div class="dialog-actions"><button value="cancel" class="button secondary">Säilytä tulokset</button><button value="confirm" class="button primary">Nollaa edistyminen</button></div></form></dialog>
+</body></html>

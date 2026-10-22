@@ -1,0 +1,12 @@
+{
+  "name": "fysiikka-sprintti",
+  "version": "1.4.0",
+  "private": true,
+  "description": "Staattinen tekniikan fysiikan harjoittelupeli. Ei asennusta tai buildia pelaamiseen.",
+  "scripts": {
+    "test": "node --test tests/physics.test.cjs tests/lessons.test.cjs tests/ui.test.cjs tests/pwa.test.cjs tests/static.test.cjs",
+    "test:physics": "node --test tests/physics.test.cjs"
+  },
+  "devDependencies": { "jsdom": "29.1.1" },
+  "engines": { "node": ">=24" }
+}
