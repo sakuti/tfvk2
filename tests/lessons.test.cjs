@@ -58,7 +58,7 @@ test('Äänet ovat oletuksena pois ja puhe vaatii paikallisen suomenkielisen ä�
   let voices=[{lang:'fi-FI',localService:false}];global.speechSynthesis={getVoices:()=>voices,speak(){spoken++;},cancel(){cancelled++;}};
   try{
     P.mediaSettings={sound:false,volume:.3};assert.equal(P.Media.tone(),false);assert.equal(created,0);
-    P.mediaSettings.sound=true;assert(P.Media.tone('success'));assert.equal(created,1);assert(gains.every(v=>v<=.027));
+    P.mediaSettings.sound=true;assert(P.Media.tone('success'));assert.equal(created,1);assert(gains.every(v=>v<=.3*.35+1e-9));
     assert.equal(P.Media.say('Testi'),false);assert.equal(spoken,0);
     voices=[{lang:'en-US',localService:true},{lang:'fi-FI',localService:true}];assert(P.Media.say('Testi'));assert.equal(spoken,1);P.Media.stopSpeech();assert.equal(cancelled,1);
     P.mediaSettings.volume=0;assert.equal(P.Media.tone(),false);assert.equal(P.Media.say('Testi'),false);

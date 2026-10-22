@@ -121,7 +121,7 @@
     function draw(){
       const model=P.lessonModel(module.kind,p,u);graphic.innerHTML=P.lessonSVG(model);
       notes.replaceChildren(...P.lessonNotes(model).map(n=>make('li',n.status?'is-status':'',n.text)));
-      metrics.replaceChildren(...model.metrics.map(([key,value,unit])=>{const cell=make('div');cell.append(make('strong','',f(value,2)+' '+unit),make('span','',key));return cell;}));
+      metrics.replaceChildren(...model.metrics.map(([key,value,unit])=>{const cell=make('div');const name=P.symbols[key]?.split(/\s*[(;]/)[0];cell.append(make('strong','',f(value,2)+' '+unit),make('span','',name?key+' · '+name:key));return cell;}));
       name.textContent=module.parameter.label+': '+f(p,2)+' '+module.parameter.unit;time.value=u*100;fill(time);fill(input);
       play.replaceChildren(icon(playing?'pause':'play'),make('span','',playing?'Tauko':'Toista'));play.setAttribute('aria-label',playing?'Pysäytä animaatio':'Toista animaatio');
     }

@@ -54,5 +54,32 @@
     return {...task,family:id,title:family.title,category:family.category,priority:family.priority,source:family.source,seed:seed>>>0};
   };
   P.answerText = field => field.type==='number'?P.format(field.answer,Math.max(field.digits,2))+' '+field.unit:field.type==='choice'?field.options.find(o=>o.value===field.answer).label:Object.entries(field.answer).map(([n,d])=>n+': '+d).join('; ');
+  // Kaavojen merkinnät selitetään sanoin, jotta pelkkä kirjain ei jää arvoitukseksi.
+  P.symbols={
+    'ΣF':'kokonaisvoima eli kaikkien voimien summa (N)','ΣFx':'vaakasuuntaisten voimien summa (N)','ΣFy':'pystysuuntaisten voimien summa (N)',
+    F:'voima, esim. veto tai työntö (N)',Fx:'voiman vaakakomponentti (N)',Fy:'voiman pystykomponentti (N)','F̄':'voimien keskiarvo (N)',
+    G:'painovoima (N)','G∥':'painovoiman tason suuntainen osa (N)','G⊥':'painovoiman tasoa vastaan kohtisuora osa (N)',
+    N:'tukivoima eli pinnan kohtisuora voima (N); yksikkönä N = newton',T:'jännitysvoima eli narun tai hihnan veto (N)','T₁':'1. hihnan jännitysvoima (N)','T₂':'2. hihnan jännitysvoima (N)',Tx:'jännitysvoiman vaakaosa (N)','T₁x':'1. hihnan vaakaosa (N)','T₁y':'1. hihnan pystyosa (N)','T₂x':'2. hihnan vaakaosa (N)','T₂y':'2. hihnan pystyosa (N)',Ty:'jännitysvoiman pystyosa (N)',
+    f:'kitkavoima (N)',f_s:'lepokitka (N)',f_k:'liikekitka (N)','μ':'kitkakerroin (ei yksikköä)','μs':'lepokitkakerroin (ei yksikköä)','μk':'liikekitkakerroin (ei yksikköä)',
+    m:'massa (kg)',g:'putoamiskiihtyvyys 9,81 m/s²',a:'kiihtyvyys (m/s²)','ā':'keskikiihtyvyys (m/s²)','ā':'keskikiihtyvyys (m/s²)',
+    v:'nopeus (m/s)','v₀':'alkunopeus (m/s)','v₁':'nopeus hetkellä 1 (m/s)','x₀':'alkupaikka (m)','t₁':'ensimmäisen osan aika','v̄':'keskinopeus (m/s)',t:'aika (s)','Δt':'aikaväli (s)','Δx':'siirtymä (m)','Δv':'nopeuden muutos (m/s)',
+    x:'paikka (m)',y:'korkeus (m)',s:'kuljettu matka (m)',hmax:'suurin korkeus (m)',amax:'suurin kiihtyvyys (m/s²)',tmin:'lyhin aika (s)','θraja':'rajakulma, jolla kappale lähtee liukumaan (°)',
+    'θ':'kulma (°)','α₁':'1. hihnan kulma pystysuorasta (°)','α₂':'2. hihnan kulma pystysuorasta (°)','α':'kulma (°)'
+  };
+  const symbolKeys=Object.keys(P.symbols).sort((a,b)=>b.length-a.length),functionWords=new Set(['sin','cos','tan']);
+  const decompose=part=>{const out=[];let rest=part;while(rest){const key=symbolKeys.find(k=>rest.startsWith(k));if(!key)return null;out.push(key);rest=rest.slice(key.length);}return out;};
+  // Palauttaa tekstin kaavoissa esiintyvät merkinnät. Luvun perässä oleva kirjain tulkitaan yksiköksi.
+  P.symbolsIn=(text,{prose=false}={})=>{
+    const found=[],words=String(text||'').split(/\s+/);
+    if(prose&&!/[=≤≥≠]/.test(text))return found;
+    words.forEach((word,i)=>{
+      if(i>0&&/\d$/.test(words[i-1]))return;
+      const parts=word.split(/[\/·()+\-−*=,;:.!?\[\]{}²³√|<>≤≥≈→←↑↓½'"”“]+/).map(p=>p.replace(/^\d+(?:,\d+)?/,'')).filter(p=>p&&!functionWords.has(p));
+      const tokens=[];for(const part of parts){const d=decompose(part);if(!d)return;tokens.push(...d);}
+      if(!tokens.length||(prose&&(tokens.length>3||new Set(tokens).size<tokens.length)))return;
+      for(const t of tokens)if(!found.includes(t))found.push(t);
+    });
+    return found;
+  };
   if(typeof module==='object' && module.exports)module.exports=P;
 })(typeof window!=='undefined'?window:globalThis);
