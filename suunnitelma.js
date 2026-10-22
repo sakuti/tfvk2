@@ -486,7 +486,7 @@ window.SPRINT_PLAN = {
     const hash=location.hash.slice(1),active=pages.includes(hash)?hash:'yhteenveto';
     for(const id of pages)$(id).hidden=id!==active;
     document.querySelectorAll('[data-page]').forEach(a=>{if(a.dataset.page===active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-    document.title=titles[active]+' — Fysiikka Sprintti';
+    document.title=titles[active]+' — Fysiikan viikkokoe 2';
     if(moveFocus){window.scrollTo(0,0);const heading=$(active).querySelector('h1');heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}
   }
   ['task-search','task-category','task-priority'].forEach(id=>$(id).addEventListener(id==='task-search'?'input':'change',renderTasks));

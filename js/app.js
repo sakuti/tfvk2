@@ -421,7 +421,7 @@
     document.body.classList.toggle('is-studying',name==='play');
     document.querySelectorAll('[data-nav]').forEach(a=>{if(a.dataset.nav===(name==='play'||name==='results'?'home':name))a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
     if(name==='home')renderHome();else if(name==='play')renderTask();else if(name==='results')renderResults();else if(name==='skills')renderSkills();else if(name==='formulas')renderFormulas();else if(name==='settings')audioUI();
-    document.title=(name==='play'&&currentTask?currentTask.title:name==='settings'?'Asetukset':name==='skills'?'Osaamiseni':name==='formulas'?'Kaavakortit':name==='results'?'Kierroksen tulokset':'Opi ratkaisemaan')+' — Fysiikka Sprintti';topbar();if(moveFocus||name==='play')focusHeading(name);
+    document.title=(name==='play'&&currentTask?currentTask.title:name==='settings'?'Asetukset':name==='skills'?'Osaamiseni':name==='formulas'?'Kaavakortit':name==='results'?'Kierroksen tulokset':'Opi ratkaisemaan')+' — Fysiikan viikkokoe 2';topbar();if(moveFocus||name==='play')focusHeading(name);
   }
   function setVolume(value){state.settings.volume=Number(value)/100;persist();audioUI();}
   function commitVolume(){if(speech!=='speaking')return;if(state.settings.volume===0)P.Media.stopSpeech();else P.Media.resume();}
@@ -457,4 +457,7 @@
   window.visualViewport?.addEventListener('resize',sizeViewport);window.visualViewport?.addEventListener('scroll',sizeViewport);sizeViewport();
   window.addEventListener('storage',event=>{if(event.key!==P.STORAGE_KEY||!event.newValue)return;try{const raw=JSON.parse(event.newValue);if(Number.isInteger(raw?.rev)&&raw.rev>knownRev)adoptExternal(raw);}catch{}});
   window.addEventListener('hashchange',()=>route(true));window.addEventListener('pagehide',()=>{persist();stopLessonMedia();});window.addEventListener('pageshow',event=>{if(event.persisted&&currentView==='play')renderTask();});window.addEventListener('resize',()=>{if(currentView==='play'&&!state.session?.current.teaching&&currentTask?.diagram?.type==='plot')drawTaskDiagram();});setInterval(updateClock,1000);applyTheme();audioUI();route();
+  // Latausnäkymä poistuu, kun fontti on valmis; lyhyt vähimmäisaika estää välähdyksen.
+  const preloader=$('preloader'),loadStart=Date.now();
+  if(preloader)Promise.race([document.fonts?.ready||Promise.resolve(),new Promise(resolve=>setTimeout(resolve,2500))]).then(()=>setTimeout(()=>{preloader.classList.add('is-done');setTimeout(()=>preloader.remove(),400);},Math.max(0,450-(Date.now()-loadStart))));
 })(window.Physics);

@@ -8,3 +8,6 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;transform:none!important}}
 @media print{.sidebar,.topbar,.filter-bar,.main-footer{display:none}main{margin:0;padding:0}.page[hidden]{display:block!important}.page{break-before:page}.page:first-of-type{break-before:auto}.hero-art{box-shadow:none}.task,.topic-card,.source{break-inside:avoid}body{background:var(--paper)}a{color:inherit}}
 .back-to-game{display:flex;align-items:center;gap:8px;margin-top:28px;padding:11px 12px;border-radius:10px;background:var(--soft);color:var(--accent);font-size:14px;font-weight:650}.back-to-game:hover{filter:brightness(1.1)}
+
+/* Tekstinvalinta ja zoomaus pois käytöstä; lomakekentät sallivat valinnan */
+html{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-x pan-y}input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}

@@ -1,4 +1,4 @@
-# Fysiikka Sprintti
+# Fysiikan viikkokoe 2 (Fysiikka Sprintti)
 
 Puhelimelle suunniteltu suomenkielinen PWA-opetus- ja harjoittelupeli tekniikan fysiikan viikkokokeeseen. **Avaa `index.html` selaimessa.** Pelaaminen ei vaadi asennusta, palvelinta, kirjautumista tai verkkoyhteyttä, kun koko kansio on ladattu koneelle.
 

@@ -7,9 +7,9 @@
   const standalone=()=>window.matchMedia?.('(display-mode: standalone)')?.matches||navigator.standalone===true;
   function render(){
     if(installed||standalone()){
-      button.hidden=true;description.textContent='Sprintti on avattu sovelluksena. Oma oppimispolkusi kulkee mukana.';
+      button.hidden=true;description.textContent='Fysiikan viikkokoe 2 on avattu sovelluksena. Oma oppimispolkusi kulkee mukana.';
     }else{
-      button.hidden=false;button.textContent=promptEvent?'Asenna Sprintti':'Lisää aloitusnäytölle';
+      button.hidden=false;button.textContent=promptEvent?'Asenna sovellus':'Lisää aloitusnäytölle';
     }
     status.classList.toggle('is-ready',ready);
     status.textContent=ready?(navigator.onLine===false?'Olet offline · opiskelu toimii silti.':'Valmis myös ilman nettiä.'):!supported?'PWA-asennus avautuu julkaistusta HTTPS-osoitteesta.':!('serviceWorker' in navigator)?'Tämä selain ei tue offline-asennusta. Voit pelata normaalisti.':failed?'Offline-tallennus ei onnistunut. Peli toimii verkkoyhteydellä; voit yrittää avaamalla sivun uudelleen.':'Offline-käyttö valmistellaan ensimmäisellä avauksella.';
@@ -25,7 +25,7 @@
     });wrap.append(note,update);status.after(wrap);
   }
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();promptEvent=event;render();});
-  window.addEventListener('appinstalled',()=>{promptEvent=null;installed=true;render();description.textContent='Sprintti lisättiin aloitusnäytölle. Löydät sen sovelluskuvakkeesta.';});
+  window.addEventListener('appinstalled',()=>{promptEvent=null;installed=true;render();description.textContent='Sovellus lisättiin aloitusnäytölle. Löydät sen sovelluskuvakkeesta.';});
   button.addEventListener('click',async()=>{
     if(promptEvent){
       const pending=promptEvent;promptEvent=null;

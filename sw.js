@@ -1,6 +1,6 @@
 /* Vaihda VERSION jokaisen julkaistavan resurssimuutoksen yhteydessä. */
 'use strict';
-const VERSION='1.4.0';
+const VERSION='1.4.1';
 const ROOT=new URL('./',self.location.href);
 const PREFIX='fysiikka-sprintti-'+encodeURIComponent(ROOT.pathname)+'-';
 const CACHE=PREFIX+VERSION;
