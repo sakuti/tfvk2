@@ -1,6 +1,6 @@
 {
   "name": "fysiikka-sprintti",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "private": true,
   "description": "Staattinen tekniikan fysiikan harjoittelupeli. Ei asennusta tai buildia pelaamiseen.",
   "scripts": {

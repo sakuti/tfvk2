@@ -22,7 +22,7 @@ Jokaiselle 33 taidolle on opetuspolku. Yhteensä 15 visuaalista perusmallia hava
 
 Liikkuvan animaation voi pysäyttää, aloittaa alusta tai siirtää aikajanalla. Osa malleista muuttuu vain säätimellä. Järjestelmän vähennetyn liikkeen asetus aloittaa animaatiot pysäytettyinä. Kiinteä opetusmalli näyttää periaatteen; satunnaistettu laskuesimerkki vastaa juuri valittua tehtäväperhettä ja poikkeaa omasta tehtävästä.
 
-Palauteäänet ja voimakkuus säädetään **Asetukset → Ääni** -kortissa; samat säätimet ovat opetussivun lopussa **Ääni ja selostus** -osiossa. Äänet ovat aluksi pois. **Kuuntele selitys** lukee nykyisen opetussivun, jos selaimesta löytyy laitteeseen asennettu suomenkielinen puheääni. Toiston tila näkyy tekstinä, ja **Pysäytä** näkyy vain puheen aikana. Voimakkuuden muutos ei katkaise selostusta: nykyinen lause toistetaan uudella voimakkuudella. Sivunvaihto ja harjoituksesta poistuminen pysäyttävät puheen. Puhetta ei haeta verkkopalvelusta.
+Palauteäänet ja voimakkuus säädetään **Asetukset → Ääni** -kortissa; samat säätimet ovat opetussivun lopussa **Äänet**-osiossa. Äänet ovat aluksi pois. Sovelluksessa ei ole puheselostusta.
 
 Katsottu opetus tallentuu erikseen. Se ei anna oppimispisteitä tai itsenäisiä onnistumisia. Opettele alusta -kierros etenee ensin vielä katsomattomiin taitoihin perusteista alkaen. Kun opetukset on käyty, valinta painottaa harjoitusta tarvitsevia taitoja. **Kertaa opetus** avaa opetuksen uudelleen; jos avaat sen kesken oman vastauksen, tehtävä kirjataan tuetuksi. Aiempi luonnos säilyy. Lähtötaso, heikkojen kohtien kertaus ja koekierros aloittavat suoraan omista tehtävistä.
 

@@ -30,7 +30,7 @@
     fresh.history=Array.isArray(raw.history)?raw.history.filter(x=>safeObject(x)&&typeof x.id==='string'&&Number.isFinite(x.at)&&Number.isInteger(x.total)&&Number.isInteger(x.independent)&&Array.isArray(x.results)&&x.results.every(validRecord)).slice(-30):[];
     if(safeObject(raw.settings)){fresh.settings.scope=['P1','all'].includes(raw.settings.scope)?raw.settings.scope:'P1';fresh.settings.timed=raw.settings.timed===true;fresh.settings.theme=raw.settings.theme==='light'?'light':'dark';}
     if(safeObject(raw.lessons))for(const id of Object.keys(P.registry)){const lesson=raw.lessons[id];if(safeObject(lesson)&&lesson.completed===true)fresh.lessons[id]={completed:true,at:Number.isFinite(lesson.at)?lesson.at:0};}
-    if(safeObject(raw.settings)){fresh.settings.sound=raw.settings.sound===true;fresh.settings.volume=Number.isFinite(raw.settings.volume)?Math.min(1,Math.max(0,raw.settings.volume)):.3;if(typeof raw.settings.voice==='string'&&raw.settings.voice.length<=200)fresh.settings.voice=raw.settings.voice;}
+    if(safeObject(raw.settings)){fresh.settings.sound=raw.settings.sound===true;fresh.settings.volume=Number.isFinite(raw.settings.volume)?Math.min(1,Math.max(0,raw.settings.volume)):.3;}
     fresh.xp=Number.isFinite(raw.xp)&&raw.xp>=0?Math.floor(raw.xp):0;
     fresh.completedRounds=Number.isInteger(raw.completedRounds)&&raw.completedRounds>=fresh.history.length?raw.completedRounds:fresh.history.length;
     if(P.validSession(raw.session))fresh.session=raw.session;

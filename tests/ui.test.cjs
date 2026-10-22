@@ -178,7 +178,7 @@ test('Ensin opetus: säädettävä animaatio, eri esimerkki, ymmärryskysymys ja
 test('Opetuksen vaihe, säädin ja ääniasetukset palautuvat; vähennetty liike aloittaa tauolta',async()=>{
   let app=setup({reduced:true}),snapshot,seed;
   try{
-    await family(app,'L08',false);seed=task(app).seed;assert.equal(app.d.querySelector('.animation-controls button').getAttribute('aria-label'),'Toista animaatio');assert.equal(saved(app).settings.sound,false);assert.equal(app.d.getElementById('narrate-lesson').disabled,true);
+    await family(app,'L08',false);seed=task(app).seed;assert.equal(app.d.querySelector('.animation-controls button').getAttribute('aria-label'),'Toista animaatio');assert.equal(saved(app).settings.sound,false);assert.equal(app.d.getElementById('narrate-lesson'),null);
     const slider=app.d.querySelector('.lesson-parameter input');slider.value='9';slider.dispatchEvent(new app.w.Event('input'));await click(app,'next-task');await click(app,'sound-toggle');
     const volume=app.d.getElementById('sound-volume');volume.value='45';volume.dispatchEvent(new app.w.Event('input'));await click(app,'back-home');snapshot=app.w.localStorage.getItem('fysiikka-sprintti-v1');assert.deepEqual(app.errors,[]);
   }finally{app.close();}

@@ -1,5 +1,8 @@
 /* Muutosloki: uusin ensin. Taulukon on oltava puhdasta JSONia, koska päivitysikkuna lukee sen uuden version välimuistista. */
 window.FysiikkaChangelog=[
+  {"version":"1.5.2","date":"2026-10-22","changes":[
+    "Puheselostus poistettiin. Opetussivujen ääniasetuksissa on nyt vain palauteäänet ja voimakkuus."
+  ]},
   {"version":"1.5.1","date":"2026-10-22","changes":[
     "Palauteäänet eivät enää tuo iPhonen Dynamic Islandiin soitinpaneelia, ja muu musiikki jatkuu taustalla.",
     "Äänettömällä kytkimellä palauteäänet ovat nyt hiljaa, kuten muissakin sovelluksissa."

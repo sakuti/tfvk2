@@ -8,8 +8,8 @@
   const legend=(text,prose=false)=>{const keys=P.symbolsIn(text,{prose});if(!keys.length)return '';const list=el('dl','symbol-legend');list.setAttribute('aria-label','Merkintöjen selitykset');for(const key of keys){const row=el('div');row.append(el('dt','',key),el('dd','',P.symbols[key]));list.append(row);}return list;};
   const label=(node,text,after=null,before=null)=>{const parts=[];if(before)parts.push(icon(before));parts.push(el('span','',text));if(after)parts.push(icon(after));node.replaceChildren(...parts);};
   const loaded=P.load();let state=loaded.state,lastSummary=state.history.at(-1)||null,currentTask=null;
-  let persistent=loaded.persistent,currentView='home',knownRev=state.rev,historyLimit=10,pendingStart=null,speech='idle',syncTimer=0;
-  let lessonCleanup=null,voiceCleanup=null,narrationText='';
+  let persistent=loaded.persistent,currentView='home',knownRev=state.rev,historyLimit=10,pendingStart=null,syncTimer=0;
+  let lessonCleanup=null;
   P.mediaSettings=state.settings;
   const views=['home','play','results','skills','formulas','settings'];
   const modeNames={learn:'Oppimiskierros',weak:'Heikkojen kohtien kertaus',exam:'Koekierros',baseline:'Lähtötaso',topic:'Aiheharjoittelu'};
@@ -44,23 +44,14 @@
     applyTheme();route();
   }
   function setText(id,text){$(id).textContent=text;}
-  function stopLessonMedia(){lessonCleanup?.();lessonCleanup=null;voiceCleanup?.();voiceCleanup=null;P.Media.stopSpeech();speech='idle';}
+  function stopLessonMedia(){lessonCleanup?.();lessonCleanup=null;}
   function audioUI(){
-    const on=state.settings.sound,volume=Math.round(state.settings.volume*100),voice=P.Media.voice();
+    const on=state.settings.sound,volume=Math.round(state.settings.volume*100);
     for(const [toggle,status,range,output] of [['sound-toggle','sound-toggle-state','sound-volume','sound-volume-value'],['settings-sound-toggle','settings-sound-state','settings-volume','settings-volume-value']]){
       $(toggle).setAttribute('aria-pressed',String(on));setText(status,on?'Päällä':'Pois');
       if(document.activeElement!==$(range))$(range).value=volume;$(range).style.setProperty('--fill',volume+'%');setText(output,volume+' %');
     }
-    const teaching=!!state.session?.current.teaching&&currentView==='play',speaking=speech==='speaking';
-    $('lesson-audio').hidden=!teaching;
-    label($('narrate-lesson'),speech==='ended'?'Kuuntele uudelleen':'Kuuntele selitys',null,speech==='ended'?'reset':'play');
-    $('narrate-lesson').hidden=speaking;$('narrate-lesson').disabled=!voice||volume===0;$('stop-narration').hidden=!speaking;
-    $('narration-chip').hidden=!speaking;setText('narration-chip','Puhuu');
-    setText('narration-status',!voice?'Selostus vaatii laitteeseen asennetun suomenkielisen puheäänen.':volume===0?'Nosta voimakkuutta kuunnellaksesi selostusta.':speaking?'Selostus käynnissä. Voimakkuuden muutos koskee nykyistä lausetta ja jatkuu siitä.':speech==='ended'?'Selostus päättyi.':'Valmis toistettavaksi.');
-    const voices=P.Media.voices(),select=$('settings-voice');$('settings-voice-row').hidden=!voices.length;
-    if(select.dataset.list!==voices.map(v=>v.voiceURI).join('|')){select.dataset.list=voices.map(v=>v.voiceURI).join('|');select.replaceChildren(...voices.map((v,i)=>{const option=el('option','',v.name+(i===0?' (suositus)':''));option.value=v.voiceURI;return option;}));}
-    if(voice)select.value=voice.voiceURI;$('settings-voice-test').disabled=!voice||volume===0;
-    setText('settings-voice-note',voice?'Suomenkielinen puheääni löytyi: selostus on käytettävissä opetussivuilla.':'Selostus vaatii laitteeseen asennetun suomenkielisen puheäänen. Palauteäänet toimivat ilman sitä.');
+    $('lesson-audio').hidden=!(state.session?.current.teaching&&currentView==='play');
   }
   function applyTheme(){
     const dark=state.settings.theme!=='light';document.documentElement.dataset.theme=dark?'dark':'light';
@@ -210,14 +201,12 @@
     setText('wizard-step-label',`Opetus ${cur.lessonPage+1} / ${pages.length}`);setText('task-tag',currentTask.category+' · '+currentTask.title);setText('task-title',page.title);setText('task-time','Oma tahti');
     setProgress(.5*cur.lessonPage/pages.length,'Aihe '+(s.index+1)+' / '+s.queue.length+', opetussivu '+(cur.lessonPage+1)+' / '+pages.length);
     renderPath(page.type==='observe'?0:page.type==='principle'?1:page.type==='prediction'?3:2);
-    narrationText='';
     if(page.type==='observe'||page.type==='principle'){
       const copy=page.type==='observe'?module.observe:module.principle;
       panel.append(el('p','lesson-copy',copy));const demo=el('div','lesson-demo');panel.append(demo);
       const parameter=Number.isFinite(cur.lessonParameter)&&cur.lessonParameter>=module.parameter.min&&cur.lessonParameter<=module.parameter.max?cur.lessonParameter:module.parameter.value;
       lessonCleanup=P.mountLessonDemo(demo,module,{parameter,onParameter:value=>{cur.lessonParameter=value;persist();}});
       if(page.type==='principle'){const formula=el('div','lesson-formula');formula.append(P.mathBlock(module.formula,{formula:true}));panel.append(formula);}
-      narrationText=copy+(page.type==='principle'?' '+module.formula:'');
     }else if(page.type==='example'||page.type==='worked'){
       panel.append(el('p','lesson-example-label','OPETUSESIMERKKI · omassa tehtävässä on eri luvut'));
       if(page.type==='example'){
@@ -225,23 +214,21 @@
         if(example.diagram){const frame=el('div','lesson-example-diagram');const force=example.fields.find(f=>f.type==='forces');const diagram=example.diagram.type==='plot'?{...example.diagram,width:panel.clientWidth||Math.min(window.innerWidth-44,466)}:example.diagram;frame.innerHTML=P.diagramSVG(diagram,force?.answer||{});panel.append(frame);}
         if(example.table)panel.append(renderTable(example.table));
         panel.append(el('p','lesson-copy','Seuraavaksi näet ratkaisun yhden vaiheen kerrallaan. Mieti jokaisessa kohdassa, miksi juuri tämä yhtälö sopii tilanteeseen.'));
-        narrationText=example.context+' Seuraavaksi käymme ratkaisun vaiheittain.';
       }else{
         const recap=el('div','context-details');recap.append(el('p','lesson-example-context',example.context));panel.append(recap);
         const worked=el('div','lesson-worked-step');worked.append(P.mathBlock(page.text));panel.append(worked);
         if(page.index===example.steps.length-1)panel.append(el('p','conclusion',example.conclusion));
-        narrationText=page.text;
       }
     }else{
       panel.append(el('p','lesson-copy',module.question));const choices=el('div','lesson-choices');
       const order=P.random((currentTask.seed^0xf075)>>>0).shuffle(module.options.map((_,i)=>i));
       order.forEach(index=>{const button=el('button','lesson-choice',module.options[index]);button.type='button';button.dataset.lessonAnswer=index;button.setAttribute('aria-pressed',String(cur.lessonAnswer===index));if(cur.lessonAnswer===index)button.classList.add(index===module.correct?'correct':'incorrect');button.addEventListener('click',()=>{cur.lessonAnswer=index;persist();P.Media.tone(index===module.correct?'success':'think');renderTask();document.querySelector('[data-lesson-answer="'+index+'"]').focus({preventScroll:true});});choices.append(button);});panel.append(choices);
       if(cur.lessonAnswer!==null&&cur.lessonAnswer!==undefined){const response=el('div','lesson-check '+(cur.lessonAnswer===module.correct?'correct':'incorrect'));response.setAttribute('role','status');response.append(el('strong','',cur.lessonAnswer===module.correct?'Juuri näin.':'Tutkitaan ajatusta vielä.'),el('p','',module.explain));panel.append(response);}
-      panel.append(el('p','quiet','Tämä on ymmärryksen tarkistus. Se ei kirjaa harjoitussuoritusta.'));narrationText=module.question+(cur.lessonAnswer!==null?' '+module.explain:'');
+      panel.append(el('p','quiet','Tämä on ymmärryksen tarkistus. Se ei kirjaa harjoitussuoritusta.'));
     }
     $('previous-step').hidden=cur.lessonPage===0;label($('previous-step'),'Takaisin',null,'arrow-left');$('check-answer').hidden=true;$('next-task').hidden=false;$('next-task').disabled=page.type==='prediction'&&cur.lessonAnswer!==module.correct;
     label($('next-task'),page.type==='prediction'?'Kokeile itse uusilla luvuilla':page.type==='observe'?'Miksi näin?':page.type==='principle'?'Katso laskuesimerkki':page.type==='example'?'Avaa ensimmäinen ratkaisuvaihe':'Seuraava vaihe','arrow-right');
-    audioUI();voiceCleanup=P.Media.voicesChanged(audioUI);P.layoutMath(panel);
+    audioUI();P.layoutMath(panel);
   }
   function renderExamReview(){
     const s=state.session,panel=$('exam-review');hideTaskParts();renderPath(null);$('lesson-audio').hidden=true;panel.hidden=false;panel.replaceChildren();
@@ -426,8 +413,6 @@
     document.title=(name==='play'&&currentTask?currentTask.title:name==='settings'?'Asetukset':name==='skills'?'Osaamiseni':name==='formulas'?'Kaavakortit':name==='results'?'Kierroksen tulokset':'Opi ratkaisemaan')+' — Fysiikan viikkokoe 2';topbar();if(moveFocus||name==='play')focusHeading(name);
   }
   function setVolume(value){state.settings.volume=Number(value)/100;persist();audioUI();}
-  function commitVolume(){if(speech!=='speaking')return;if(state.settings.volume===0)P.Media.stopSpeech();else P.Media.resume();}
-  function setVoice(value){state.settings.voice=value;persist();P.Media.say('Tältä kuulostaa selostus.');audioUI();}
   function toggleSound(){state.settings.sound=!state.settings.sound;persist();audioUI();if(state.settings.sound)P.Media.tone();}
   $('start-learn').addEventListener('click',()=>start('learn'));$('start-baseline').addEventListener('click',()=>start('baseline'));$('start-weak').addEventListener('click',()=>start('weak'));$('start-exam').addEventListener('click',()=>start('exam'));
   document.querySelectorAll('[data-topic]').forEach(button=>button.addEventListener('click',()=>start('topic',button.dataset.topic)));
@@ -475,7 +460,7 @@
   }
   function restoreBackup(){
     const restored=pendingRestore;pendingRestore=null;if(!restored)return;
-    stopLessonMedia();const voice=state.settings.voice;state=restored;if(voice)state.settings.voice=voice;else delete state.settings.voice;
+    stopLessonMedia();state=restored;
     P.mediaSettings=state.settings;lastSummary=state.history.at(-1)||null;historyLimit=10;persist();applyTheme();audioUI();
     backupStatus('Varmuuskopio palautettu: '+state.history.length+' kierrosta.');
   }
@@ -484,13 +469,10 @@
   $('backup-file').addEventListener('change',()=>chooseBackup($('backup-file').files[0]));
   $('restore-dialog').addEventListener('close',()=>{if($('restore-dialog').returnValue==='confirm')restoreBackup();else pendingRestore=null;});
   $('reset-progress').addEventListener('click',()=>{$('reset-dialog').returnValue='cancel';$('reset-dialog').showModal();});
-  $('reset-dialog').addEventListener('close',()=>{if($('reset-dialog').returnValue!=='confirm')return;const prefs={...state.settings};state=P.emptyState();Object.assign(state.settings,{theme:prefs.theme,sound:prefs.sound,volume:prefs.volume,...(prefs.voice?{voice:prefs.voice}:{})});P.mediaSettings=state.settings;lastSummary=null;historyLimit=10;P.clear();persist();setRoute('home');});
+  $('reset-dialog').addEventListener('close',()=>{if($('reset-dialog').returnValue!=='confirm')return;const prefs={...state.settings};state=P.emptyState();Object.assign(state.settings,{theme:prefs.theme,sound:prefs.sound,volume:prefs.volume});P.mediaSettings=state.settings;lastSummary=null;historyLimit=10;P.clear();persist();setRoute('home');});
   $('lesson-button').addEventListener('click',()=>{const cur=state.session?.current;if(!cur||cur.done||state.session.mode==='exam')return;if(cur.step>=0)cur.formula=true;cur.lessonReturnStep=cur.step;cur.teaching=true;cur.lessonPage=0;cur.lessonAnswer=null;cur.lessonParameter=null;persist();renderTask();focusStep();});
   $('sound-toggle').addEventListener('click',toggleSound);$('settings-sound-toggle').addEventListener('click',toggleSound);
-  $('settings-voice').addEventListener('change',()=>setVoice($('settings-voice').value));$('settings-voice-test').addEventListener('click',()=>P.Media.say('Tältä kuulostaa selostus.'));P.Media.voicesChanged(()=>{if(currentView==='settings')audioUI();});
-  for(const id of ['sound-volume','settings-volume']){$(id).addEventListener('input',()=>setVolume($(id).value));$(id).addEventListener('change',commitVolume);}
-  $('narrate-lesson').addEventListener('click',()=>{if(!state.session?.current.teaching||!P.Media.voice()||state.settings.volume<=0)return;if(P.Media.say(narrationText,{onState:value=>{speech=value==='stopped'?'idle':value;audioUI();}})){speech='speaking';audioUI();$('stop-narration').focus({preventScroll:true});}});
-  $('stop-narration').addEventListener('click',()=>{P.Media.stopSpeech();speech='idle';audioUI();$('narrate-lesson').focus({preventScroll:true});});
+  for(const id of ['sound-volume','settings-volume']){$(id).addEventListener('input',()=>setVolume($(id).value));}
   $('theme-toggle').addEventListener('click',()=>{state.settings.theme=state.settings.theme==='light'?'dark':'light';applyTheme();persist();});
   document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();focusContent();});
   $('view-play').addEventListener('keydown',event=>{if(event.key==='Escape'&&event.target.tagName!=='SELECT'&&!event.defaultPrevented){event.preventDefault();persist();setRoute('home');}});
