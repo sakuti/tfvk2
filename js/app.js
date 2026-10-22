@@ -444,6 +444,45 @@
   $('results-weak').addEventListener('click',()=>{if(lastSummary?.results?.some(r=>P.registry[r.family].priority!=='P1'))state.settings.scope='all';start('weak');});
   $('skill-category').addEventListener('change',renderSkills);$('skill-priority').addEventListener('change',renderSkills);
   $('history-more').addEventListener('click',()=>{historyLimit+=10;renderSkills();});
+  // Varmuuskopio on sama tallennusmuoto kuin selaimessa; palautus tarkistetaan kuten tavallinen lataus.
+  let pendingRestore=null;
+  const backupStatus=text=>setText('backup-status',text);
+  async function exportBackup(){
+    persist();const day=new Date().toISOString().slice(0,10);
+    const data={app:'fysiikan-viikkokoe-2',exported:Date.now(),appVersion:document.querySelector('meta[name="app-version"]')?.content||'',state};
+    const name='fysiikka-varmuuskopio-'+day+'.json',blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+    // Puhelimessa jakovalikko tallentaa tiedoston esim. Tiedostot-sovellukseen; muualla tiedosto ladataan.
+    const file=typeof File==='function'?new File([blob],name,{type:'application/json'}):null;
+    if(file&&window.matchMedia?.('(pointer: coarse)')?.matches&&navigator.canShare?.({files:[file]})){
+      try{await navigator.share({files:[file],title:'Fysiikan viikkokoe 2 – varmuuskopio'});backupStatus('Varmuuskopio jaettu. Säilytä tiedosto, esimerkiksi Tiedostot-sovelluksessa.');}catch(e){if(e?.name!=='AbortError')backupStatus('Jakaminen ei onnistunut. Kokeile uudelleen.');}
+      return;
+    }
+    const url=URL.createObjectURL(blob),link=el('a');link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    backupStatus('Varmuuskopio tallennettu tiedostoon '+name+'.');
+  }
+  function readBackup(text){
+    let raw;try{raw=JSON.parse(text);}catch{return null;}
+    const source=raw&&typeof raw==='object'&&raw.app==='fysiikan-viikkokoe-2'?raw.state:raw;
+    if(!source||typeof source!=='object'||source.version!==1||!source.stats||typeof source.stats!=='object')return null;
+    return {state:P.sanitize(source),exported:Number.isFinite(raw.exported)?raw.exported:null};
+  }
+  async function chooseBackup(file){
+    if(!file)return;let text='';try{text=await file.text();}catch{}
+    const backup=readBackup(text);if(!backup){backupStatus('Tiedosto ei ole tämän sovelluksen varmuuskopio.');return;}
+    pendingRestore=backup.state;const b=backup.state,skills=Object.values(b.stats).filter(x=>x.attempts>0).length;
+    setText('restore-description',(backup.exported?'Varmuuskopio '+new Date(backup.exported).toLocaleString('fi-FI',{dateStyle:'short',timeStyle:'short'})+': ':'Varmuuskopiossa: ')+b.history.length+' kierrosta, '+skills+' harjoiteltua taitoa ja '+b.xp+' pistettä. Tämän laitteen nykyinen edistyminen korvataan.');
+    $('restore-dialog').returnValue='cancel';$('restore-dialog').showModal();
+  }
+  function restoreBackup(){
+    const restored=pendingRestore;pendingRestore=null;if(!restored)return;
+    stopLessonMedia();const voice=state.settings.voice;state=restored;if(voice)state.settings.voice=voice;else delete state.settings.voice;
+    P.mediaSettings=state.settings;lastSummary=state.history.at(-1)||null;historyLimit=10;persist();applyTheme();audioUI();
+    backupStatus('Varmuuskopio palautettu: '+state.history.length+' kierrosta.');
+  }
+  $('backup-export').addEventListener('click',exportBackup);
+  $('backup-import').addEventListener('click',()=>{$('backup-file').value='';$('backup-file').click();});
+  $('backup-file').addEventListener('change',()=>chooseBackup($('backup-file').files[0]));
+  $('restore-dialog').addEventListener('close',()=>{if($('restore-dialog').returnValue==='confirm')restoreBackup();else pendingRestore=null;});
   $('reset-progress').addEventListener('click',()=>{$('reset-dialog').returnValue='cancel';$('reset-dialog').showModal();});
   $('reset-dialog').addEventListener('close',()=>{if($('reset-dialog').returnValue!=='confirm')return;const prefs={...state.settings};state=P.emptyState();Object.assign(state.settings,{theme:prefs.theme,sound:prefs.sound,volume:prefs.volume,...(prefs.voice?{voice:prefs.voice}:{})});P.mediaSettings=state.settings;lastSummary=null;historyLimit=10;P.clear();persist();setRoute('home');});
   $('lesson-button').addEventListener('click',()=>{const cur=state.session?.current;if(!cur||cur.done||state.session.mode==='exam')return;if(cur.step>=0)cur.formula=true;cur.lessonReturnStep=cur.step;cur.teaching=true;cur.lessonPage=0;cur.lessonAnswer=null;cur.lessonParameter=null;persist();renderTask();focusStep();});

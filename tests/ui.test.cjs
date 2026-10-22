@@ -119,6 +119,23 @@ test('Tallennuksen esto ja file:// eivät estä vaiheikkunan avaamista',async()=
 test('Nollaus edellyttää vahvistusta',async()=>{
   const app=setup();try{await family(app,'N01');await finishTask(app);await route(app,'skills');await click(app,'reset-progress');const dialog=app.d.getElementById('reset-dialog');assert(dialog.open);dialog.returnValue='cancel';dialog.dispatchEvent(new app.w.Event('close'));assert(saved(app).stats.N01);await click(app,'reset-progress');dialog.returnValue='confirm';dialog.dispatchEvent(new app.w.Event('close'));await tick();assert.equal(Object.keys(saved(app).stats).length,0);assert.equal(app.d.getElementById('stat-independent').textContent,'0');assert.deepEqual(app.errors,[]);}finally{app.close();}
 });
+test('Varmuuskopion tallennus ja palautus siirtää edistymisen; väärä tiedosto hylätään',async()=>{
+  let app=setup(),backup;
+  try{
+    await family(app,'N01');await finishTask(app);await route(app,'settings');
+    app.w.URL.createObjectURL=blob=>{backup=blob;return 'blob:test';};app.w.URL.revokeObjectURL=()=>{};app.w.HTMLAnchorElement.prototype.click=function(){};
+    await click(app,'backup-export');assert(backup);assert(app.d.getElementById('backup-status').textContent.includes('tallennettu'));backup=await backup.text();
+    assert.equal(JSON.parse(backup).app,'fysiikan-viikkokoe-2');assert.deepEqual(app.errors,[]);
+  }finally{app.close();}
+  app=setup();
+  try{
+    await route(app,'settings');const input=app.d.getElementById('backup-file'),choose=async text=>{Object.defineProperty(input,'files',{value:[new app.w.File([text],'b.json')],configurable:true});input.dispatchEvent(new app.w.Event('change'));await tick();};
+    await choose('{"hello":1}');assert(app.d.getElementById('backup-status').textContent.includes('ei ole'));assert(!app.d.getElementById('restore-dialog').open);
+    await choose(backup);const dialog=app.d.getElementById('restore-dialog');assert(dialog.open);assert(app.d.getElementById('restore-description').textContent.includes('1 harjoiteltua taitoa'));
+    dialog.returnValue='cancel';dialog.close();await tick();assert(!saved(app)?.stats?.N01);
+    await choose(backup);dialog.returnValue='confirm';dialog.close();await tick();assert(saved(app).stats.N01);assert(saved(app).session);assert.deepEqual(app.errors,[]);
+  }finally{app.close();}
+});
 test('Tumma oletusteema ja pysyvä teemavalinta säilyttävät keskeneräisen tehtävän',async()=>{
   let app=setup(),snapshot,seed,answers;
   try{

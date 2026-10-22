@@ -93,6 +93,19 @@ test('Uudesta versiosta kerrotaan ikkunalla; harjoituksen aikana vain ilmoitus j
     app.d.body.classList.remove('is-studying');await tick();assert(dialog.open);assert(toast.hidden);assert.deepEqual(app.errors,[]);
   }finally{app.close();}
 });
+test('Versionumero on sama kaikkialla ja muutosloki on luettavaa JSONia',()=>{
+  const sw=fs.readFileSync(path.join(root,'sw.js'),'utf8').match(/const VERSION='([^']+)'/)[1],pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8')).version;
+  const meta=html.match(/<meta name="app-version" content="([^"]+)">/)[1],text=fs.readFileSync(path.join(root,'js/changelog.js'),'utf8'),log=JSON.parse(text.slice(text.indexOf('['),text.lastIndexOf(']')+1));
+  assert.equal(pkg,sw);assert.equal(meta,sw);assert.equal(log[0].version,sw);assert(log.every(e=>/^\d+\.\d+\.\d+$/.test(e.version)&&e.changes.length>0));
+});
+test('Päivitysikkuna näyttää odottavan version muutokset välimuistista',async()=>{
+  const app=pwaUI({waiting:true});
+  app.w.caches={keys:async()=>['fysiikka-sprintti-%2Fcourse%2F-1.0.0','fysiikka-sprintti-%2Fcourse%2F-99.0.0','muu-sovellus'],open:async name=>({match:async()=>name.endsWith('-99.0.0')?{text:async()=>'window.FysiikkaChangelog=[{"version":"99.0.0","changes":["Uusi ominaisuus"]}];'}:null})};
+  try{
+    await tick();await tick();assert(app.d.getElementById('update-dialog').open);assert(!app.d.getElementById('update-changes').hidden);
+    assert(app.d.getElementById('update-changes-title').textContent.includes('99.0.0'));assert.equal(app.d.getElementById('update-changes-list').textContent,'Uusi ominaisuus');assert.deepEqual(app.errors,[]);
+  }finally{app.close();}
+});
 test('Fontti on paikallinen ja molempien teemojen leipätekstin kontrasti on vähintään 4,5:1',()=>{
   const css=fs.readFileSync(path.join(root,'css/game.css'),'utf8');assert(css.includes('@font-face'));assert(fs.statSync(path.join(root,'assets/fonts/Manrope-Variable.ttf')).size>10000);assert(fs.readFileSync(path.join(root,'assets/fonts/OFL.txt'),'utf8').includes('SIL OPEN FONT LICENSE'));
   const luminance=hex=>{if(hex.length===4)hex='#'+hex.slice(1).split('').map(c=>c+c).join('');const rgb=hex.slice(1).match(/../g).map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722;};

@@ -15,13 +15,42 @@
     status.classList.toggle('is-ready',ready);
     status.textContent=ready?(navigator.onLine===false?'Olet offline · opiskelu toimii silti.':'Valmis myös ilman nettiä.'):!supported?'PWA-asennus avautuu julkaistusta HTTPS-osoitteesta.':!('serviceWorker' in navigator)?'Tämä selain ei tue offline-asennusta. Voit pelata normaalisti.':failed?'Offline-tallennus ei onnistunut. Peli toimii verkkoyhteydellä; voit yrittää avaamalla sivun uudelleen.':'Offline-käyttö valmistellaan ensimmäisellä avauksella.';
   }
+  const current=document.querySelector('meta[name="app-version"]')?.content||'';
+  const newer=(a,b)=>{const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){if((x[i]||0)!==(y[i]||0))return (x[i]||0)>(y[i]||0);}return false;};
+  const validLog=list=>Array.isArray(list)?list.filter(e=>e&&typeof e.version==='string'&&Array.isArray(e.changes)):null;
+  const item=(tag,text,cls)=>{const n=document.createElement(tag);if(cls)n.className=cls;n.textContent=text;return n;};
+  // Odottava uusi versio on jo tallentanut oman muutoslokinsa välimuistiin: luetaan se sieltä ilman verkkoa.
+  async function latestLog(){
+    try{
+      const names=(await caches.keys()).filter(n=>n.startsWith('fysiikka-sprintti-')).sort((a,b)=>newer(a.split('-').pop(),b.split('-').pop())?-1:1);
+      const key=new URL('./js/changelog.js',location.href).href;
+      for(const name of names){const r=await (await caches.open(name)).match(key);if(!r)continue;const text=await r.text();return validLog(JSON.parse(text.slice(text.indexOf('['),text.lastIndexOf(']')+1)));}
+    }catch{}
+    return null;
+  }
+  async function fillChanges(){
+    const list=(await latestLog())?.filter(e=>newer(e.version,current));if(!list?.length)return;
+    $('update-changes-title').textContent='Mitä uutta versiossa '+list[0].version;
+    $('update-changes-list').replaceChildren(...list.flatMap(e=>e.changes).slice(0,8).map(c=>item('li',c)));$('update-changes').hidden=false;
+  }
+  // Asetuksissa näkyy käytössä olevan version muutoshistoria; uusin auki, aiemmat avattavina.
+  function renderChangelog(){
+    $('app-version-label').textContent=current?'Käytössä versio '+current+'.':'';
+    const list=validLog(window.FysiikkaChangelog);if(!list?.length)return;const target=$('changelog');target.replaceChildren();
+    list.slice(0,5).forEach((entry,i)=>{
+      const block=document.createElement(i===0?'div':'details'),changes=document.createElement('ul');block.className='changelog-entry';
+      changes.append(...entry.changes.map(c=>item('li',c)));
+      block.append(item(i===0?'h3':'summary','Versio '+entry.version+(entry.date?' · '+entry.date.split('-').reverse().join('.'):''),'changelog-title'),changes);target.append(block);
+    });
+  }
+  renderChangelog();
   function activate(){if(registration?.waiting){reloading=true;registration.waiting.postMessage({type:'ACTIVATE_UPDATE'});}}
   // Uudesta versiosta kerrotaan heti: harjoituksen aikana pienellä ilmoituksella, muuten ikkunalla.
   // Harjoitusta ei keskeytetä, vaan ikkuna avautuu, kun harjoituksesta poistutaan.
   function notify(){
     if(!registration?.waiting||postponed||dialog.open)return;
     if(studying()){deferred=true;toast.hidden=false;return;}
-    deferred=false;toast.hidden=true;dialog.returnValue='later';
+    deferred=false;toast.hidden=true;dialog.returnValue='later';fillChanges();
     if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
   }
   dialog.addEventListener('close',()=>{if(dialog.returnValue==='update'&&!studying())activate();else postponed=true;});
